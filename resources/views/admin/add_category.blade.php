@@ -1,0 +1,64 @@
+@extends('admin.admin_layout')
+
+@section('title', 'Thêm danh mục - Hải Phương Mobile')
+
+@section('page_title', 'Thêm danh mục sản phẩm')
+
+@section('content')
+    <div class="bg-white p-6 rounded-lg shadow">
+        <form action="{{ route('save_category') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="mb-4">
+                <?php
+    $message = Session::get('success');
+    if ($message) {
+        echo '<div class="text-green-500 mb-4">' . $message . '</div>';
+        Session::put('message', null);
+
+    }
+                ?>
+                <label for="category_name" class="block text-sm font-medium text-gray-700">Tên danh mục</label>
+                <input type="text" name="category_name" id="category_name"
+                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                @error('category_name')
+                    <div class="text-red-700 mt-1">
+                        <strong class="font-bold italic text-sm">{{ $message }}</strong>
+                    </div>
+                @enderror
+            </div>
+
+            <div class="mb-4">
+                <label for="category_description" class="block text-sm font-medium text-gray-700">Mô tả</label>
+                <textarea name="category_description" id="category_description" rows="3"
+                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></textarea>
+                @error('category_description')
+                    <div class="text-red-700 mt-1">
+                        <strong class="font-bold italic text-sm">{{ $message }}</strong>
+                    </div>
+                @enderror
+            </div>
+
+            <div class="mb-4">
+                <label for="category_status" class="block text-sm font-medium text-gray-700">Trạng thái</label>
+                <select name="category_status" id="category_status"
+                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="1">Hiển thị</option>
+                    <option value="0">Ẩn</option>
+                </select>
+
+            </div>
+
+            <div class="flex items-center justify-end mt-4">
+                <a href="{{ route('category') }}"
+                    class="inline-flex items-center px-4 py-2 bg-gray-300 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-400 active:bg-gray-500 focus:outline-none focus:border-gray-500 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150 mr-2">
+                    <i class="fas fa-arrow-left mr-2"></i> Quay lại
+                </a>
+                <button type="submit"
+                    class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-800 focus:outline-none focus:border-indigo-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
+                    <i class="fas fa-save mr-2"></i> Lưu danh mục
+                </button>
+            </div>
+        </form>
+    </div>
+
+@endsection
