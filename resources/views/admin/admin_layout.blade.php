@@ -9,8 +9,6 @@
     <!-- Tailwind CSS -->
     @vite('resources/css/app.css')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
-
-    <link href="{{ asset('js/app.js') }}" rel="script" />
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
@@ -57,12 +55,12 @@
                             <!-- Products -->
                             <div class="space-y-1">
                                 <button type="button"
-                                    class="group w-full flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">
+                                    class="sidebar-dropdown-button group w-full flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">
                                     <i class="fas fa-mobile-alt mr-3 text-gray-400 group-hover:text-gray-300"></i>
-                                    <span class="flex-1">Sản phẩm</span>
-                                    <i class="fas fa-chevron-down text-gray-400"></i>
+                                    <span class="flex-1">Quản Lý Danh Mục</span>
+                                    <i class="fas fa-chevron-down text-gray-400 transition-transform duration-200"></i>
                                 </button>
-                                <div class="pl-6 space-y-1">
+                                <div class="pl-6 space-y-1 hidden">
                                     <a href="{{ route('add_category') }}"
                                         class="group flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md {{ request()->routeIs('add_category') ? 'bg-gray-700 text-white' : 'hover:bg-gray-700 hover:text-white' }}">
                                         Thêm danh mục sản phẩm
@@ -71,6 +69,26 @@
                                         <a href="{{ route('category') }}"
                                             class="group flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md {{ request()->routeIs('category') ? 'bg-gray-700 text-white' : 'hover:bg-gray-700 hover:text-white' }}">
                                             Danh mục
+                                        </a>
+                                    
+                                </div>
+                            </div>
+                            <div class="space-y-1">
+                                <button type="button"
+                                    class="sidebar-dropdown-button group w-full flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">
+                                    <i class="fas fa-mobile-alt mr-3 text-gray-400 group-hover:text-gray-300"></i>
+                                    <span class="flex-1">Quản Lý Sản Phẩm</span>
+                                    <i class="fas fa-chevron-down text-gray-400 transition-transform duration-200"></i>
+                                </button>
+                                <div class="pl-6 space-y-1 hidden">
+                                    <a href="{{ route('add_product') }}"
+                                        class="group flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md {{ request()->routeIs('add_product') ? 'bg-gray-700 text-white' : 'hover:bg-gray-700 hover:text-white' }}">
+                                        Thêm Sản Phẩm
+                                    </a>
+                                    
+                                        <a href="{{ route('product') }}"
+                                            class="group flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md {{ request()->routeIs('product') ? 'bg-gray-700 text-white' : 'hover:bg-gray-700 hover:text-white' }}">
+                                            Sản Phẩm
                                         </a>
                                     
                                 </div>
@@ -186,7 +204,9 @@
             @yield('admin_content')
         </div>
     </div>
-
+    <script src="{{ asset('js/admin-drop.js') }}"></script>
+    <script src="{{ asset('js/admin-sidebar.js') }}"></script>
+    @yield('js')
 </body>
 
 </html>

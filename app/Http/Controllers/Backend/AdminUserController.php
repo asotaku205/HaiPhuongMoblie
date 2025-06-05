@@ -18,4 +18,20 @@ class AdminUserController extends Controller
        $infor_user = DB::table('users')->paginate(15);
         return view('admin.admin_user', compact('infor_user'));
     }
+    
+    public function search(Request $request)
+    {
+        $search = $request->search;
+        
+        $infor_user = DB::table('users')
+            ->where('fullname', 'like', '%'.$search.'%')
+            ->orWhere('username', 'like', '%'.$search.'%')
+            ->orWhere('email', 'like', '%'.$search.'%')
+            ->orWhere('phone', 'like', '%'.$search.'%')
+            ->paginate(15);
+            
+        $infor_user->appends(['search' => $search]);
+        
+        return view('admin.admin_user', compact('infor_user'));
+    }
 }
