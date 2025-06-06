@@ -17,7 +17,7 @@ class HomeController extends Controller
         // ->limit(10)
         // ->get();
         $all_product = DB::table('product')->where('product_status', 1)->orderBy('product_id', 'desc')->limit(10)->get();
-        return view('layouts.main', compact('category', 'product', 'all_product'));
+        return view('layouts.home', compact('category', 'product', 'all_product'));
     }
 
 }
