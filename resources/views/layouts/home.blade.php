@@ -17,7 +17,12 @@
                 </div>
                 <div class="mt-4 flex items-center gap-4">
                     <a href="{{route('product_post', $item->product_id)}}" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">Tìm hiểu thêm</a>
-                    <a href="#" class="text-blue-600 hover:text-blue-800">Mua ›</a>
+                    <form action="{{ route('save_cart') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="product_id_hidden" value="{{ $item->product_id }}">
+                        <input type="hidden" name="quantity" id="form-quantity" value="1">
+                        <button type="submit" name="buy_now" value="1" class="text-blue-600 hover:text-blue-800">Mua ›</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -57,7 +62,11 @@
                 </div>
                 <div class="mt-4 flex items-center gap-4">
                     <a href="{{route('product_post', $item->product_id)}}" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">Tìm hiểu thêm</a>
-                    <a href="#" class="text-blue-600 hover:text-blue-800">Mua ›</a>
+                    <form action="{{ route('save_cart') }}" method="POST">
+                        @csrf
+
+                        <button type="submit" name="buy_now" value="1" class="text-blue-600 hover:text-blue-800">Mua ›</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -96,7 +105,11 @@
                 </div>
                 <div class="mt-4 flex items-center gap-4">
                     <a href="{{route('product_post', $item->product_id)}}" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">Tìm hiểu thêm</a>
-                    <a href="#" class="text-blue-600 hover:text-blue-800">Mua ›</a>
+                    <form action="{{ route('save_cart') }}" method="POST">
+                        @csrf
+
+                        <button type="submit" name="buy_now" value="1" class="text-blue-600 hover:text-blue-800">Mua ›</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -135,7 +148,11 @@
                 </div>
                 <div class="mt-4 flex items-center gap-4">
                     <a href="{{route('product_post', $item->product_id)}}" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">Tìm hiểu thêm</a>
-                    <a href="#" class="text-blue-600 hover:text-blue-800">Mua ›</a>
+                    <form action="{{ route('save_cart') }}" method="POST">
+                        @csrf
+
+                        <button type="submit" name="buy_now" value="1" class="text-blue-600 hover:text-blue-800">Mua ›</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -174,7 +191,11 @@
                 </div>
                 <div class="mt-4 flex items-center gap-4">
                     <a href="{{route('product_post', $item->product_id)}}" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">Tìm hiểu thêm</a>
-                    <a href="#" class="text-blue-600 hover:text-blue-800">Mua ›</a>
+                    <form action="{{ route('save_cart') }}" method="POST">
+                        @csrf
+
+                        <button type="submit" name="buy_now" value="1" class="text-blue-600 hover:text-blue-800">Mua ›</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -213,7 +234,11 @@
                 </div>
                 <div class="mt-4 flex items-center gap-4">
                     <a href="{{route('product_post', $item->product_id)}}" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">Tìm hiểu thêm</a>
-                    <a href="#" class="text-blue-600 hover:text-blue-800">Mua ›</a>
+                    <form action="{{ route('save_cart') }}" method="POST">
+                        @csrf
+
+                        <button type="submit" name="buy_now" value="1" class="text-blue-600 hover:text-blue-800">Mua ›</button>
+                    </form>
                 </div>
             </div>
         </div>

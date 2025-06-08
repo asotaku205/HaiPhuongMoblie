@@ -53,13 +53,31 @@
                 <div class="text-3xl font-bold mb-6">{{ number_format($product->product_price, 0, ',', '.') }}₫</div>
 
                 <!-- Nút mua hàng -->
-                <div class="flex space-x-4">
-                    <a href="#" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors w-full text-center font-semibold">
-                        MUA NGAY
-                    </a>
-                    <a href="#" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors w-full text-center font-semibold">
-                        Thêm vào giỏ hàng
-                    </a>
+                <div class="flex flex-col space-y-4">
+                    <div class="flex items-center space-x-4 mb-2">
+                        <label for="quantity" class="font-semibold">Số lượng:</label>
+                        <div class="flex items-center rounded-lg">
+                            <button type="button" onclick="decreaseQuantity()" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-l">-</button>
+                            <input type="" id="quantity" name="quantity" value="1" min="1" class="w-16 text-center py-1 focus:outline-none">
+                            <button type="button" onclick="increaseQuantity()" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-r">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <form action="{{ route('save_cart') }}" method="POST" class="flex space-x-4 w-full">
+                            @csrf
+                            <input type="hidden" name="product_id_hidden" value="{{ $product->product_id }}">
+                            <input type="hidden" name="quantity" id="form-quantity" value="1">
+                            <button type="submit" name="buy_now" value="1" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors w-full text-center font-semibold">
+                                MUA NGAY
+                            </button>
+                            <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors w-full text-center font-semibold">
+                                Thêm vào giỏ hàng
+                            </button>
+                            
+                        </form>
+                        <script src="{{ asset('js/quantity.js') }}"></script>
+                    </div>
                 </div>
             </div>
         </div>
@@ -157,5 +175,6 @@
         </div>
     </div>
 </div>
+
 
 @endsection

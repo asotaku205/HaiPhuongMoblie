@@ -9,6 +9,8 @@ use App\Http\Requests\AuthRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+
 class AuthController extends Controller
 {
     public function __construct()
@@ -34,21 +36,36 @@ class AuthController extends Controller
             'password' => $password
         ];
         if (Auth::attempt($credentials)) {
-            // Authentication passed...
+            // Lưu user_id vào session
+            Session::put('user_id', Auth::id());
+            
+            // Kiểm tra nếu có URL chuyển hướng sau khi đăng nhập
+            if (Session::has('redirect_after_login')) {
+                $redirectUrl = Session::get('redirect_after_login');
+                Session::forget('redirect_after_login');
+                return redirect($redirectUrl)->with('success', 'Đăng nhập thành công');
+            }
+            
+            // Nếu không có URL chuyển hướng, về trang chủ
             return redirect()->intended('home')->with('success', 'Đăng nhập thành công');
-        }// Đăng nhập thất bại, quay lại trang trước với thông báo lỗi
+        }
+        
+        // Đăng nhập thất bại, quay lại trang trước với thông báo lỗi
         return redirect()->back()
             ->withInput($request->except('password'))
             ->withErrors([
                 'login_identifier' => 'Thông tin đăng nhập không chính xác.'
             ]);
-
     }
+    
     public function logout(Request $request)
     {
         Auth::logout();
 
         $request->session()->invalidate();
+        
+        // Xóa user_id khỏi session
+        Session::forget('user_id');
 
         $request->session()->regenerateToken();
 
@@ -73,6 +90,16 @@ class AuthController extends Controller
 
         // Đăng nhập người dùng sau khi đăng ký
         Auth::login($user);
+        
+        // Lưu user_id vào session
+        Session::put('user_id', $user->id);
+        
+        // Kiểm tra nếu có URL chuyển hướng sau khi đăng nhập
+        if (Session::has('redirect_after_login')) {
+            $redirectUrl = Session::get('redirect_after_login');
+            Session::forget('redirect_after_login');
+            return redirect($redirectUrl)->with('success', 'Đăng ký và đăng nhập thành công');
+        }
 
         // Chuyển hướng đến trang chủ
         return redirect()->route('home')->with('success', 'Đăng ký thành công!');

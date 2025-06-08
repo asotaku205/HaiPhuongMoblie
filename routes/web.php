@@ -8,12 +8,21 @@ use App\Http\Middleware\AdminAuth;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductPostController;
+use App\Http\Controllers\CartController;
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+Route::prefix('home')->group(function () {
+    Route::get('/product/{id}', [ProductPostController::class, 'product_post'])->name('product_post');
+    Route::post('/save_cart', [CartController::class, 'save_cart'])->name('save_cart');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/cart', [CartController::class, 'view_cart'])->name('cart_view');
+    Route::post('/update_cart', [CartController::class, 'update_cart'])->name('cart_update');
+    Route::get('/remove_cart/{id}', [CartController::class, 'remove_cart'])->name('cart_remove');
+    Route::get('/clear_cart', [CartController::class, 'clear_cart'])->name('cart_clear');
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+});
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'auth_login'])->name('auth_login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -22,7 +31,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'auth_register'])->name('auth_register');
 
-Route::get('/product/{id}', [ProductPostController::class, 'product_post'])->name('product_post');
+
 //backend
 Route::middleware(['admin_auth'])->prefix('admin')->group(function () {
 

@@ -106,11 +106,52 @@
                             </svg>
                         </button>
 
-                        <a href="#" class="text-black hover:text-gray-300">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l-1 12H6L5 9z" />
-                            </svg>
-                        </a>
+                        <div class="relative group">
+                            <a href="{{ route('cart_view') }}" class="text-black hover:text-gray-300">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l-1 12H6L5 9z" />
+                                </svg>
+                                @if(session('cart') && count(session('cart')) > 0)
+                                    <span class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                                        {{ count(session('cart')) }}
+                                    </span>
+                                @endif
+                            </a>
+                            
+                            <!-- Mini Cart -->
+                            <div class="absolute right-0 mt-2 w-80 bg-white shadow-lg rounded-lg p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                @if(session('cart') && count(session('cart')) > 0)
+                                    <div class="max-h-64 overflow-y-auto">
+                                        @php $totalMini = 0; @endphp
+                                        @foreach(session('cart') as $id => $item)
+                                            @php $totalMini += $item['price'] * $item['quantity']; @endphp
+                                            <div class="flex items-center py-2 border-b border-gray-100">
+                                                <div class="w-16 h-16 mr-4">
+                                                    <img src="{{ asset('uploads/products/'.$item['image']) }}" alt="{{ $item['name'] }}" class="w-full h-full object-contain">
+                                                </div>
+                                                <div class="flex-1">
+                                                    <h3 class="text-sm font-medium">{{ $item['name'] }}</h3>
+                                                    <p class="text-xs text-gray-500">{{ $item['quantity'] }} x {{ number_format($item['price'], 0, ',', '.') }} VND</p>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div class="mt-4 pt-2 border-t border-gray-100">
+                                        <div class="flex justify-between mb-2">
+                                            <span class="font-medium">Tổng cộng:</span>
+                                            <span class="font-bold">{{ number_format($totalMini, 0, ',', '.') }} VND</span>
+                                        </div>
+                                        <a href="{{ route('cart_view') }}" class="block text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200">
+                                            Xem giỏ hàng
+                                        </a>
+                                    </div>
+                                @else
+                                    <div class="text-center py-4">
+                                        <p class="text-gray-500">Giỏ hàng trống</p>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
 
                         @if(Auth::check())
                         <div class="relative group">
@@ -119,7 +160,7 @@
                             </button>
                             <div class="absolute top-full right-0 w-48 bg-white shadow-lg rounded-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                                 <a href="#" class="block px-4 py-2 text-black hover:bg-gray-100">Tài khoản</a>
-                                <a href="#" class="block px-4 py-2 text-black hover:bg-gray-100">Đơn hàng</a>
+                                <a href="{{ route('cart_view') }}" class="block px-4 py-2 text-black hover:bg-gray-100">Đơn hàng</a>
                                 <hr class="my-1">
                                 <a href="{{ route('logout') }}" class="block px-4 py-2 text-black hover:bg-gray-100">Đăng xuất</a>
                             </div>
