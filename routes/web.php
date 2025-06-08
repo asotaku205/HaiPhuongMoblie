@@ -7,7 +7,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Middleware\AdminAuth;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\ProductPostController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +21,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'auth_register'])->name('auth_register');
+
+Route::get('/product/{id}', [ProductPostController::class, 'product_post'])->name('product_post');
 //backend
 Route::middleware(['admin_auth'])->prefix('admin')->group(function () {
 
