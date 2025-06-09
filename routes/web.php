@@ -12,6 +12,7 @@ use App\Http\Controllers\CartController;
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('home')->group(function () {
     Route::get('/product/{id}', [ProductPostController::class, 'product_post'])->name('product_post');
