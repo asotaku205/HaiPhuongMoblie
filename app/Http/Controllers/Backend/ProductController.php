@@ -96,17 +96,22 @@ class ProductController extends Controller
     public function delete_product($id)
     {
         $product = DB::table('product')->where('product_id', $id)->first();
+        return view('admin.product.delete_product', compact ('product'));
         
-        // Xóa hình ảnh
-        if ($product && $product->product_image && file_exists(public_path('uploads/products/' . $product->product_image))) {
-            unlink(public_path('uploads/products/' . $product->product_image));
+    }
+    public function destroy_product($id)
+    {
+        $product = DB::table('product')->where('product_id', $id)->first();
+        
+        if (!$product) {
+            Session::put('error', 'Không tìm thấy sản phẩm');
+            return redirect()->route('product')->with('error', 'Không tìm thấy sản phẩm');
         }
         
         DB::table('product')->where('product_id', $id)->delete();
-        Session::put('success', 'Xóa sản phẩm thành công');
-        return redirect()->back()->with('success', 'Xóa sản phẩm thành công');
+        Session::put('success', 'Xóa danh mục thành công');
+        return redirect()->route('product')->with('success', 'Xóa danh mục thành công');
     }
-    
     public function search(Request $request)
     {
         $search = $request->search;
