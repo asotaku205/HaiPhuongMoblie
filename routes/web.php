@@ -67,7 +67,11 @@ Route::middleware(['admin_auth'])->prefix('admin')->group(function () {
         Route::get('/edit/{id}', [ProductController::class, 'edit_product'])->name('edit_product');
         Route::post('/update/{id}', [ProductController::class, 'update_product'])->name('update_product');
         Route::put('/update/{id}', [ProductController::class, 'update_product'])->name('update_product');
+        Route::get('/destroy/{id}', [ProductController::class, 'destroy_product'])->name('destroy_product');
         Route::get('/delete/{id}', [ProductController::class, 'delete_product'])->name('delete_product');
+        Route::post('/destroy/{id}', [ProductController::class, 'destroy_product'])->name('destroy_product');
+        Route::delete('/destroy/{id}', [ProductController::class, 'destroy_product'])->name('destroy_product');
+
     });
 });
 Route::prefix('admin')->group(function () {
