@@ -159,7 +159,7 @@
                                 {{ Auth::user()->fullname }}
                             </button>
                             <div class="absolute top-full right-0 w-48 bg-white shadow-lg rounded-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                <a href="#" class="block px-4 py-2 text-black hover:bg-gray-100">Tài khoản</a>
+                                <a href="{{ route('user.settings') }}" class="block px-4 py-2 text-black hover:bg-gray-100">Tài khoản</a>
                                 <a href="{{ route('cart_view') }}" class="block px-4 py-2 text-black hover:bg-gray-100">Đơn hàng</a>
                                 <hr class="my-1">
                                 <a href="{{ route('logout') }}" class="block px-4 py-2 text-black hover:bg-gray-100">Đăng xuất</a>
@@ -221,7 +221,7 @@
         </nav>
     @yield('header')
     </header>
-    <main class="pt-6 mt-24">
+    <main class="pt-6 mt-10">
         @yield('content')
     </main>
     <!-- Footer -->

@@ -9,7 +9,8 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductPostController;
 use App\Http\Controllers\CartController;
-
+use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\Backend\OrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -23,7 +24,18 @@ Route::prefix('home')->group(function () {
     Route::get('/remove_cart/{id}', [CartController::class, 'remove_cart'])->name('cart_remove');
     Route::get('/clear_cart', [CartController::class, 'clear_cart'])->name('cart_clear');
     Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
 });
+
+// Tài khoản người dùng
+Route::prefix('account')->group(function () {
+    Route::get('/settings', [UserProfileController::class, 'index'])->name('user.settings');
+    Route::post('/update-profile', [UserProfileController::class, 'updateProfile'])->name('user.update.profile');
+    Route::post('/update-address', [UserProfileController::class, 'updateAddress'])->name('user.update.address');
+    Route::post('/update-payment', [UserProfileController::class, 'updatePayment'])->name('user.update.payment');
+    Route::post('/change-password', [UserProfileController::class, 'changePassword'])->name('user.change.password');
+});
+
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'auth_login'])->name('auth_login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -73,6 +85,14 @@ Route::middleware(['admin_auth'])->prefix('admin')->group(function () {
         Route::post('/destroy/{id}', [ProductController::class, 'destroy_product'])->name('destroy_product');
         Route::delete('/destroy/{id}', [ProductController::class, 'destroy_product'])->name('destroy_product');
 
+    });
+     // Quản lý đơn hàng
+     Route::prefix('orders')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name('admin.orders.index');
+        Route::get('/{id}', [OrderController::class, 'show'])->name('admin.orders.show');
+        Route::post('/{id}/update-status', [OrderController::class, 'updateStatus'])->name('admin.orders.update-status');
+        Route::post('/{id}/update-payment', [OrderController::class, 'updatePaymentStatus'])->name('admin.orders.update-payment');
+        Route::delete('/{id}', [OrderController::class, 'destroy'])->name('admin.orders.destroy');
     });
 });
 Route::prefix('admin')->group(function () {
