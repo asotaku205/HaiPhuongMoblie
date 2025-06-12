@@ -25,6 +25,15 @@
 
     <div class="mb-8">
         <h2 class="text-2xl font-bold mb-6">Xin chào {{ $user->fullname }}!</h2>
+        
+        <div class="flex flex-wrap gap-4">
+            <a href="{{ route('user.settings') }}" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                Thông tin tài khoản
+            </a>
+            <a href="{{ route('user.orders') }}" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
+                Đơn hàng của tôi
+            </a>
+        </div>
     </div>
 
     <div class="max-w-5xl mx-auto">

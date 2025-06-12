@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Cart;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class CartController extends Controller
@@ -159,17 +160,44 @@ class CartController extends Controller
     
     public function remove_cart($id)
     {
-        $cart = Session::get('cart', []);
-        if (isset($cart[$id])) {
-            unset($cart[$id]);
-            Session::put('cart', $cart);
+        try {
+            // Debug
+            Log::info('Removing item from cart with ID: ' . $id);
             
-            // Nếu người dùng đã đăng nhập, cập nhật giỏ hàng trong database
-            if (Session::has('user_id')) {
-                $this->saveCartToDB($cart, Session::get('user_id'));
+            // Lấy giỏ hàng từ session
+            $cart = Session::get('cart', []);
+            Log::info('Current cart items: ' . json_encode(array_keys($cart)));
+            
+            // Kiểm tra xem sản phẩm có trong giỏ hàng không
+            if (isset($cart[$id])) {
+                // Xóa sản phẩm khỏi giỏ hàng
+                unset($cart[$id]);
+                
+                // Cập nhật lại giỏ hàng trong session
+                Session::put('cart', $cart);
+                Log::info('Updated cart items after removal: ' . json_encode(array_keys($cart)));
+                
+                // Nếu người dùng đã đăng nhập, cập nhật giỏ hàng trong database
+                if (Session::has('user_id')) {
+                    $userId = Session::get('user_id');
+                    $this->saveCartToDB($cart, $userId);
+                    
+                    // Xóa trực tiếp từ database để đảm bảo
+                    Log::info('Removing item from database for user: ' . $userId);
+                    Cart::where('user_id', $userId)
+                        ->where('product_id', $id)
+                        ->delete();
+                }
+                
+                return redirect()->route('cart_view')->with('success', 'Đã xóa sản phẩm khỏi giỏ hàng');
             }
+            
+            Log::info('Product not found in cart: ' . $id);
+            return redirect()->route('cart_view')->with('error', 'Không tìm thấy sản phẩm trong giỏ hàng');
+        } catch (\Exception $e) {
+            Log::error('Error removing item from cart: ' . $e->getMessage());
+            return redirect()->route('cart_view')->with('error', 'Có lỗi xảy ra khi xóa sản phẩm: ' . $e->getMessage());
         }
-        return redirect()->back()->with('success', 'Đã xóa sản phẩm khỏi giỏ hàng');
     }
     
     public function clear_cart()

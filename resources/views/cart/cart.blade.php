@@ -55,12 +55,14 @@
                             
                             <div class="text-right">
                                 <p class="font-medium text-lg">{{ number_format($item['price'], 0, ',', '.') }} VND</p>
-                                <a href="{{ route('cart_remove', $id) }}" class="text-red-500 text-sm inline-block mt-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                    Xóa
-                                </a>
+                                <form action="{{ route('cart_remove', ['id' => $id]) }}" method="GET" class="inline">
+                                    <button type="submit" class="text-red-500 text-sm inline-block mt-2" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                        Xóa
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -93,6 +95,20 @@
                         Thanh Toán
                     </a>
                     
+                    <!-- Nút xóa giỏ hàng -->
+                    <a href="{{ route('cart_clear') }}" class="block w-full bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition duration-200 text-center mt-2" onclick="return confirm('Bạn có chắc chắn muốn xóa toàn bộ giỏ hàng?')">
+                        Xóa Toàn Bộ Giỏ Hàng
+                    </a>
+                    
+                    @if(Session::has('user_id'))
+                    <!-- Liên kết đến đơn hàng đã đặt -->
+                    <div class="mt-4 text-center">
+                        <a href="{{ route('user.orders') }}" class="text-blue-600 hover:underline">
+                            Xem đơn hàng đã đặt
+                        </a>
+                    </div>
+                    @endif
+                    
                     <!-- Điều khoản -->
                     <div class="mt-4 text-xs text-gray-500">
                         <p>Bằng cách gửi đơn đặt hàng, bạn đồng ý với <a href="#" class="text-blue-500">Điều khoản & điều kiện</a> và chúng tôi sẽ sử dụng dữ liệu cá nhân của bạn theo <a href="#" class="text-blue-500">Chính sách quyền riêng tư</a> của chúng tôi.</p>
@@ -110,6 +126,14 @@
             <a href="{{ route('home') }}" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
                 Tiếp tục mua sắm
             </a>
+            @if(Session::has('user_id'))
+            <!-- Liên kết đến đơn hàng đã đặt -->
+            <div class="mt-4 text-center">
+                <a href="{{ route('user.orders') }}" class="text-blue-600 hover:underline">
+                    Xem đơn hàng đã đặt
+                </a>
+            </div>
+            @endif
         </div>
     @endif
 </div>

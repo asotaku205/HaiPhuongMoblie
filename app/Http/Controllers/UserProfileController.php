@@ -126,4 +126,78 @@ class UserProfileController extends Controller
         
         return redirect()->back()->with('success', 'Đổi mật khẩu thành công');
     }
+    
+    public function myOrders()
+    {
+        if (!Session::has('user_id')) {
+            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để xem đơn hàng');
+        }
+        
+        $userId = Session::get('user_id');
+        $orders = DB::table('orders')
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
+        $category = DB::table('category_product')->where('category_status', 1)->orderBy('category_id', 'desc')->get();
+        
+        return view('layouts.account.my_orders', compact('orders', 'category'));
+    }
+    
+    public function orderDetail($id)
+    {
+        if (!Session::has('user_id')) {
+            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để xem chi tiết đơn hàng');
+        }
+        
+        $userId = Session::get('user_id');
+        $order = DB::table('orders')
+            ->where('order_id', $id)
+            ->where('user_id', $userId)
+            ->first();
+        
+        if (!$order) {
+            return redirect()->route('user.orders')->with('error', 'Đơn hàng không tồn tại hoặc bạn không có quyền xem');
+        }
+        
+        $orderDetails = DB::table('order_details')
+            ->where('order_id', $id)
+            ->get();
+        
+        $category = DB::table('category_product')->where('category_status', 1)->orderBy('category_id', 'desc')->get();
+        
+        return view('layouts.account.order_detail', compact('order', 'orderDetails', 'category'));
+    }
+    
+    public function cancelOrder($id)
+    {
+        if (!Session::has('user_id')) {
+            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để hủy đơn hàng');
+        }
+        
+        $userId = Session::get('user_id');
+        $order = DB::table('orders')
+            ->where('order_id', $id)
+            ->where('user_id', $userId)
+            ->first();
+        
+        if (!$order) {
+            return redirect()->route('user.orders')->with('error', 'Đơn hàng không tồn tại hoặc bạn không có quyền hủy');
+        }
+        
+        // Chỉ cho phép hủy đơn hàng khi đang ở trạng thái "Đang xử lý"
+        if ($order->order_status != 0) {
+            return redirect()->route('user.order.detail', $id)->with('error', 'Chỉ có thể hủy đơn hàng khi đang ở trạng thái đang xử lý');
+        }
+        
+        // Cập nhật trạng thái đơn hàng thành "Đã hủy"
+        DB::table('orders')
+            ->where('order_id', $id)
+            ->update([
+                'order_status' => 3, // 3: Đã hủy
+                'updated_at' => now()
+            ]);
+        
+        return redirect()->route('user.order.detail', $id)->with('success', 'Đơn hàng đã được hủy thành công');
+    }
 }

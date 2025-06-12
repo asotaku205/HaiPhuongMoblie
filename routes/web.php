@@ -34,6 +34,9 @@ Route::prefix('account')->group(function () {
     Route::post('/update-address', [UserProfileController::class, 'updateAddress'])->name('user.update.address');
     Route::post('/update-payment', [UserProfileController::class, 'updatePayment'])->name('user.update.payment');
     Route::post('/change-password', [UserProfileController::class, 'changePassword'])->name('user.change.password');
+    Route::get('/orders', [UserProfileController::class, 'myOrders'])->name('user.orders');
+    Route::get('/orders/{id}', [UserProfileController::class, 'orderDetail'])->name('user.order.detail');
+    Route::post('/orders/{id}/cancel', [UserProfileController::class, 'cancelOrder'])->name('user.order.cancel');
 });
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
