@@ -34,12 +34,11 @@
         </div>
         
         <!-- Danh mục sản phẩm -->
-        <div>
+        <div class="mb-4">
             <label for="category_id" class="block text-sm font-medium text-gray-700">Danh mục</label>
-            <select name="category_id" id="category_id" 
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <select name="category_id" id="category_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 <option value="">Chọn danh mục</option>
-                @foreach($all_category as $category)
+                @foreach($categories as $category)
                 <option value="{{ $category->category_id }}">{{ $category->category_name }}</option>
                 @endforeach
             </select>

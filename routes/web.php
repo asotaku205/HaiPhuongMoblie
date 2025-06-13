@@ -17,26 +17,29 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('home')->group(function () {
     Route::get('/product/{id}', [ProductPostController::class, 'product_post'])->name('product_post');
-    Route::post('/save_cart', [CartController::class, 'save_cart'])->name('save_cart');
-    Route::get('/', [HomeController::class, 'index'])->name('home');
-    Route::get('/cart', [CartController::class, 'view_cart'])->name('cart_view');
-    Route::post('/update_cart', [CartController::class, 'update_cart'])->name('cart_update');
-    Route::get('/remove_cart/{id}', [CartController::class, 'remove_cart'])->name('cart_remove');
-    Route::get('/clear_cart', [CartController::class, 'clear_cart'])->name('cart_clear');
-    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
-    Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
-});
+    Route::get('/category/{id}', [HomeController::class, 'show_products'])->name('category.products');
 
-// Tài khoản người dùng
-Route::prefix('account')->group(function () {
-    Route::get('/settings', [UserProfileController::class, 'index'])->name('user.settings');
-    Route::post('/update-profile', [UserProfileController::class, 'updateProfile'])->name('user.update.profile');
-    Route::post('/update-address', [UserProfileController::class, 'updateAddress'])->name('user.update.address');
-    Route::post('/update-payment', [UserProfileController::class, 'updatePayment'])->name('user.update.payment');
-    Route::post('/change-password', [UserProfileController::class, 'changePassword'])->name('user.change.password');
-    Route::get('/orders', [UserProfileController::class, 'myOrders'])->name('user.orders');
-    Route::get('/orders/{id}', [UserProfileController::class, 'orderDetail'])->name('user.order.detail');
-    Route::post('/orders/{id}/cancel', [UserProfileController::class, 'cancelOrder'])->name('user.order.cancel');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+
+    Route::prefix('cart')->group(function () {
+        Route::post('/save_cart', [CartController::class, 'save_cart'])->name('save_cart');
+        Route::get('/', [CartController::class, 'view_cart'])->name('cart_view');
+        Route::post('/update_cart', [CartController::class, 'update_cart'])->name('cart_update');
+        Route::get('/remove_cart/{id}', [CartController::class, 'remove_cart'])->name('cart_remove');
+        Route::get('/clear_cart', [CartController::class, 'clear_cart'])->name('cart_clear');
+        Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+        Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
+    });
+    Route::prefix('account')->group(function () {
+        Route::get('/settings', [UserProfileController::class, 'index'])->name('user.settings');
+        Route::post('/update-profile', [UserProfileController::class, 'updateProfile'])->name('user.update.profile');
+        Route::post('/update-address', [UserProfileController::class, 'updateAddress'])->name('user.update.address');
+        Route::post('/update-payment', [UserProfileController::class, 'updatePayment'])->name('user.update.payment');
+        Route::post('/change-password', [UserProfileController::class, 'changePassword'])->name('user.change.password');
+        Route::get('/orders', [UserProfileController::class, 'myOrders'])->name('user.orders');
+        Route::get('/orders/{id}', [UserProfileController::class, 'orderDetail'])->name('user.order.detail');
+        Route::post('/orders/{id}/cancel', [UserProfileController::class, 'cancelOrder'])->name('user.order.cancel');
+    });
 });
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -54,7 +57,7 @@ Route::middleware(['admin_auth'])->prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'admin_index'])->name('admin_index');
 
 
-    
+
     Route::get('/user', [AdminUserController::class, 'infor_user'])->name('admin_user');
     Route::get('/user/search', [AdminUserController::class, 'search'])->name('admin.user.search');
 
@@ -87,10 +90,9 @@ Route::middleware(['admin_auth'])->prefix('admin')->group(function () {
         Route::get('/delete/{id}', [ProductController::class, 'delete_product'])->name('delete_product');
         Route::post('/destroy/{id}', [ProductController::class, 'destroy_product'])->name('destroy_product');
         Route::delete('/destroy/{id}', [ProductController::class, 'destroy_product'])->name('destroy_product');
-
     });
-     // Quản lý đơn hàng
-     Route::prefix('orders')->group(function () {
+    // Quản lý đơn hàng
+    Route::prefix('orders')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('admin.orders.index');
         Route::get('/{id}', [OrderController::class, 'show'])->name('admin.orders.show');
         Route::post('/{id}/update-status', [OrderController::class, 'updateStatus'])->name('admin.orders.update-status');

@@ -27,8 +27,7 @@ class ProductController extends Controller
     
     public function add_product()
     {
-        $all_category = DB::table('category_product')->where('category_status', 1)->get();
-        return view('admin.product.add_product', compact('all_category'));
+        return view('admin.product.add_product');
     }
     
     public function save_product(ProductRequest $request)
@@ -58,8 +57,7 @@ class ProductController extends Controller
     public function edit_product($id)
     {
         $product = DB::table('product')->where('product_id', $id)->first();
-        $all_category = DB::table('category_product')->where('category_status', 1)->get();
-        return view('admin.product.edit_product', compact('product', 'all_category'));
+        return view('admin.product.edit_product', compact('product'));
     }
     
     public function update_product(ProductRequest $request, $id)

@@ -24,7 +24,7 @@
             </div>
             @enderror
         </div>
-
+        <!-- Mô tả -->
         <div class="mb-4">
             <label for="category_description" class="block text-sm font-medium text-gray-700">Mô tả</label>
             <textarea name="category_description" id="category_description" rows="3"
@@ -36,7 +36,7 @@
             @enderror
            
         </div>
-
+        <!-- Trạng thái -->
         <div class="mb-4">
             <label for="category_status" class="block text-sm font-medium text-gray-700">Trạng thái</label>
             <select name="category_status" id="category_status"
@@ -46,7 +46,7 @@
             </select>
         
         </div>
-            
+        <!-- Nút lưu -->
         <div class="flex items-center justify-end mt-4">
             <a href="{{ route('category') }}"
                 class="inline-flex items-center px-4 py-2 bg-gray-300 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-400 active:bg-gray-500 focus:outline-none focus:border-gray-500 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150 mr-2">

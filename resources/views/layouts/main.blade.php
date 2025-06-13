@@ -36,19 +36,22 @@
                                     <div>
                                         <h3 class="text-gray-900 font-semibold mb-3">Khám Phá iPhone</h3>
                                         <ul class="space-y-2">
-                                            @foreach ($category as $key => $item)
-                                            <li><a href="{{ URL::to('category/'.$item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
-                                            @endforeach
-
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-gray-900 font-semibold mb-3">Mua iPhone</h3>
-                                        <ul class="space-y-2">
                                             <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Mua iPhone</a></li>
                                             <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Phụ Kiện iPhone</a></li>
                                             <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Apple Trade In</a></li>
                                             <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Hỗ Trợ iPhone</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-gray-900 font-semibold mb-3">Danh Mục iPhone</h3>
+                                        <ul class="space-y-2">
+                                            @if(isset($categories))
+                                                @foreach ($categories as $key => $item)
+                                                    @if(strpos(strtolower($item->category_name), 'iphone') !== false)
+                                                    <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
+                                                    @endif
+                                                @endforeach
+                                            @endif
                                         </ul>
                                     </div>
                                 </div>
@@ -56,32 +59,137 @@
                         </div>
                         <div class="relative group">
                             <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">iPad</a>
+                            <div class="absolute top-full left-0 w-80 bg-white shadow-lg rounded-lg p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div class="grid grid-cols-2 gap-6">
+                                    <div>
+                                        <h3 class="text-gray-900 font-semibold mb-3">Khám Phá iPad</h3>
+                                        <ul class="space-y-2">
+                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Mua iPad</a></li>
+                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Phụ Kiện iPad</a></li>
+                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Apple Pencil</a></li>
+                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Hỗ Trợ iPad</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-gray-900 font-semibold mb-3">Danh Mục iPad</h3>
+                                        <ul class="space-y-2">
+                                            @foreach ($categories as $key => $item)
+                                            @if(strpos(strtolower($item->category_name), 'ipad') !== false)
+                                            <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
+                                            @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="relative group">
                             <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">Mac</a>
+                            <div class="absolute top-full left-0 w-80 bg-white shadow-lg rounded-lg p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div class="grid grid-cols-2 gap-6">
+                                    <div>
+                                        <h3 class="text-gray-900 font-semibold mb-3">Khám Phá Mac</h3>
+                                        <ul class="space-y-2">
+                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Mua Mac</a></li>
+                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Phụ Kiện Mac</a></li>
+                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Apple Trade In</a></li>
+                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Hỗ Trợ Mac</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-gray-900 font-semibold mb-3">Danh Mục Mac</h3>
+                                        <ul class="space-y-2">
+                                            @foreach ($categories as $key => $item)
+                                            @if(strpos(strtolower($item->category_name), 'mac') !== false)
+                                            <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
+                                            @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="relative group">
                             <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">Watch</a>
+                            <div class="absolute top-full left-0 w-80 bg-white shadow-lg rounded-lg p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div class="grid grid-cols-2 gap-6">
+                                    <div>
+                                        <h3 class="text-gray-900 font-semibold mb-3">Khám Phá Watch</h3>
+                                        <ul class="space-y-2">
+                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Mua Watch</a></li>
+                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Phụ Kiện Watch</a></li>
+                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Apple Trade In</a></li>
+                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Hỗ Trợ Watch</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-gray-900 font-semibold mb-3">Danh Mục Watch</h3>
+                                        <ul class="space-y-2">
+                                            @foreach ($categories as $key => $item)
+                                            @if(strpos(strtolower($item->category_name), 'watch') !== false)
+                                            <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
+                                            @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="relative group">
                             <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">Android</a>
                             <div class="absolute top-full left-0 w-80 bg-white shadow-lg rounded-lg p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                                 <div class="grid grid-cols-2 gap-6">
                                     <div>
-                                        <h3 class="text-gray-900 font-semibold mb-3">Khám Phá AirPods</h3>
+                                        <h3 class="text-gray-900 font-semibold mb-3">Khám Phá Android</h3>
                                         <ul class="space-y-2">
                                             <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Khám Phá Tất Cả Android</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Xiaomi</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Oppo</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Vivo</a></li>
+                                            @foreach ($categories as $key => $item)
+                                            @if(strpos(strtolower($item->category_name), 'samsung') !== false)
+                                            <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
+                                            @endif
+                                            @endforeach
                                         </ul>
                                     </div>
                                     <div>
-                                        <h3 class="text-gray-900 font-semibold mb-3">Mua Android</h3>
+                                        <h3 class="text-gray-900 font-semibold mb-3">Danh Mục Android</h3>
                                         <ul class="space-y-2">
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Mua Android</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Phụ Kiện Android</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Hỗ Trợ Android</a></li>
+                                            @foreach ($categories as $key => $item)
+                                            @if(strpos(strtolower($item->category_name), 'xiaomi') !== false ||
+                                            strpos(strtolower($item->category_name), 'oppo') !== false ||
+                                            strpos(strtolower($item->category_name), 'vivo') !== false ||
+                                            strpos(strtolower($item->category_name), 'realme') !== false ||
+                                            strpos(strtolower($item->category_name), 'samsung') !== false)
+                                            <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
+                                            @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative group">
+                            <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">Phụ Kiện</a>
+                            <div class="absolute top-full left-0 w-80 bg-white shadow-lg rounded-lg p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div class="grid grid-cols-2 gap-6">
+                                    <div>
+                                        <h3 class="text-gray-900 font-semibold mb-3">Khám Phá Phụ Kiện</h3>
+                                        <ul class="space-y-2">
+                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Phụ Kiện iPhone</a></li>
+                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Phụ Kiện iPad</a></li>
+                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Phụ Kiện Mac</a></li>
+                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Phụ Kiện Watch</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-gray-900 font-semibold mb-3">Danh Mục Phụ Kiện</h3>
+                                        <ul class="space-y-2">
+                                            @foreach ($categories as $key => $item)
+                                            @if(strpos(strtolower($item->category_name), 'phụ kiện') !== false ||
+                                            strpos(strtolower($item->category_name), 'tai nghe') !== false ||
+                                            strpos(strtolower($item->category_name), 'sạc') !== false)
+                                            <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
+                                            @endif
+                                            @endforeach
                                         </ul>
                                     </div>
                                 </div>
@@ -89,12 +197,6 @@
                         </div>
                         <div class="relative group">
                             <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">Sửa chữa</a>
-                        </div>
-                        <div class="relative group">
-                            <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">Phụ Kiện</a>
-                        </div>
-                        <div class="relative group">
-                            <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">Hỗ Trợ</a>
                         </div>
                     </div>
 
@@ -112,43 +214,43 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l-1 12H6L5 9z" />
                                 </svg>
                                 @if(session('cart') && count(session('cart')) > 0)
-                                    <span class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-                                        {{ count(session('cart')) }}
-                                    </span>
+                                <span class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                                    {{ count(session('cart')) }}
+                                </span>
                                 @endif
                             </a>
-                            
+
                             <!-- Mini Cart -->
                             <div class="absolute right-0 mt-2 w-80 bg-white shadow-lg rounded-lg p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                                 @if(session('cart') && count(session('cart')) > 0)
-                                    <div class="max-h-64 overflow-y-auto">
-                                        @php $totalMini = 0; @endphp
-                                        @foreach(session('cart') as $id => $item)
-                                            @php $totalMini += $item['price'] * $item['quantity']; @endphp
-                                            <div class="flex items-center py-2 border-b border-gray-100">
-                                                <div class="w-16 h-16 mr-4">
-                                                    <img src="{{ asset('uploads/products/'.$item['image']) }}" alt="{{ $item['name'] }}" class="w-full h-full object-contain">
-                                                </div>
-                                                <div class="flex-1">
-                                                    <h3 class="text-sm font-medium">{{ $item['name'] }}</h3>
-                                                    <p class="text-xs text-gray-500">{{ $item['quantity'] }} x {{ number_format($item['price'], 0, ',', '.') }} VND</p>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div class="mt-4 pt-2 border-t border-gray-100">
-                                        <div class="flex justify-between mb-2">
-                                            <span class="font-medium">Tổng cộng:</span>
-                                            <span class="font-bold">{{ number_format($totalMini, 0, ',', '.') }} VND</span>
+                                <div class="max-h-64 overflow-y-auto">
+                                    @php $totalMini = 0; @endphp
+                                    @foreach(session('cart') as $id => $item)
+                                    @php $totalMini += $item['price'] * $item['quantity']; @endphp
+                                    <div class="flex items-center py-2 border-b border-gray-100">
+                                        <div class="w-16 h-16 mr-4">
+                                            <img src="{{ asset('uploads/products/'.$item['image']) }}" alt="{{ $item['name'] }}" class="w-full h-full object-contain">
                                         </div>
-                                        <a href="{{ route('cart_view') }}" class="block text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200">
-                                            Xem giỏ hàng
-                                        </a>
+                                        <div class="flex-1">
+                                            <h3 class="text-sm font-medium">{{ $item['name'] }}</h3>
+                                            <p class="text-xs text-gray-500">{{ $item['quantity'] }} x {{ number_format($item['price'], 0, ',', '.') }} VND</p>
+                                        </div>
                                     </div>
+                                    @endforeach
+                                </div>
+                                <div class="mt-4 pt-2 border-t border-gray-100">
+                                    <div class="flex justify-between mb-2">
+                                        <span class="font-medium">Tổng cộng:</span>
+                                        <span class="font-bold">{{ number_format($totalMini, 0, ',', '.') }} VND</span>
+                                    </div>
+                                    <a href="{{ route('cart_view') }}" class="block text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200">
+                                        Xem giỏ hàng
+                                    </a>
+                                </div>
                                 @else
-                                    <div class="text-center py-4">
-                                        <p class="text-gray-500">Giỏ hàng trống</p>
-                                    </div>
+                                <div class="text-center py-4">
+                                    <p class="text-gray-500">Giỏ hàng trống</p>
+                                </div>
                                 @endif
                             </div>
                         </div>
@@ -191,15 +293,66 @@
                             </svg>
                         </button>
                         <div class="mobile-submenu hidden bg-gray-50 px-4 py-2 space-y-1">
-                            <a href="#" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-sm">iPhone 16 Pro</a>
-                            <a href="#" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-sm">iPhone 16</a>
-                            <a href="#" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-sm">iPhone 15</a>
-                            <a href="#" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-sm">iPhone 14</a>
+                            <ul class="space-y-2">
+                                @foreach ($categories as $key => $item)
+                                    @if(strpos(strtolower($item->category_name), 'iphone') !== false)
+                                    <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
+                                    @endif
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
-                    <a href="#" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">iPad</a>
-                    <a href="#" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">Mac</a>
-                    <a href="#" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">Watch</a>
+                    <div class="relative">
+                        <button class="mobile-submenu-button w-full flex justify-between items-center px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">
+                            <span>iPad</span>
+                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="mobile-submenu hidden bg-gray-50 px-4 py-2 space-y-1">
+                            <ul class="space-y-2">
+                                @foreach ($categories as $key => $item)
+                                @if(strpos(strtolower($item->category_name), 'ipad') !== false)
+                                <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
+                                @endif
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <button class="mobile-submenu-button w-full flex justify-between items-center px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">
+                            <span>Mac</span>
+                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="mobile-submenu hidden bg-gray-50 px-4 py-2 space-y-1">
+                            <ul class="space-y-2">
+                                @foreach ($categories as $key => $item)
+                                @if(strpos(strtolower($item->category_name), 'mac') !== false)
+                                <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
+                                @endif
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <button class="mobile-submenu-button w-full flex justify-between items-center px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">
+                            <span>Watch</span>
+                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="mobile-submenu hidden bg-gray-50 px-4 py-2 space-y-1">
+                            <ul class="space-y-2">
+                                @foreach ($categories as $key => $item)
+                                @if(strpos(strtolower($item->category_name), 'watch') !== false)
+                                <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
+                                @endif
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
                     <div class="relative">
                         <button class="mobile-submenu-button w-full flex justify-between items-center px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">
                             <span>Android</span>
@@ -208,18 +361,41 @@
                             </svg>
                         </button>
                         <div class="mobile-submenu hidden bg-gray-50 px-4 py-2 space-y-1">
-                            <a href="#" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-sm">Xiaomi</a>
-                            <a href="#" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-sm">Oppo</a>
-                            <a href="#" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-sm">Vivo</a>
+                            <ul class="space-y-2">
+                                @foreach ($categories as $key => $item)
+                                @if(strpos(strtolower($item->category_name), 'xiaomi') !== false ||
+                                strpos(strtolower($item->category_name), 'oppo') !== false ||
+                                strpos(strtolower($item->category_name), 'vivo') !== false ||
+                                strpos(strtolower($item->category_name), 'realme') !== false ||
+                                strpos(strtolower($item->category_name), 'samsung') !== false )
+                                <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
+                                @endif
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
-                    <a href="#" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">Sửa chữa</a>
-                    <a href="#" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">Phụ Kiện</a>
-                    <a href="#" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">Hỗ Trợ</a>
+                    <div class="relative">
+                        <button class="mobile-submenu-button w-full flex justify-between items-center px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">
+                            <span>Phụ Kiện</span>
+                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="mobile-submenu hidden bg-gray-50 px-4 py-2 space-y-1">
+                            <ul class="space-y-2">
+                                @foreach ($categories as $key => $item)
+                                @if(strpos(strtolower($item->category_name), 'phụ kiện') !== false ||
+                                strpos(strtolower($item->category_name), 'tai nghe') !== false ||
+                                strpos(strtolower($item->category_name), 'sạc') !== false)
+                                <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
+                                @endif
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </div>
         </nav>
-    @yield('header')
+        @yield('header')
     </header>
     <main class="pt-6 mt-10">
         @yield('content')

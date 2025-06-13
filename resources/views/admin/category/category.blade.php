@@ -27,19 +27,19 @@
                     <option value="2">Chỉnh sửa hàng loạt</option>
                     <option value="3">Xuất dữ liệu</option>
                 </select>
-                <button 
+                <button        
                     class="px-4 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">
                     Áp dụng
                 </button>
             </div>
-
+            <!-- Nút thêm danh mục -->
             <div class="w-full md:w-auto">
                 <a href="{{ route('add_category') }}"
                     class="inline-block px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <i class="fas fa-plus mr-1"></i> Thêm danh mục
                 </a>
             </div>
-
+            <!-- Tìm kiếm danh mục -->
             <form action="{{ route('category.search') }}" method="GET" class="flex items-center w-full md:w-auto">
                     <div class="relative flex-grow md:w-80">
                         <input type="text" name="search" placeholder="Tìm kiếm danh mục..." 
