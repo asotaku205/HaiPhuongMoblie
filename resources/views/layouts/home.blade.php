@@ -4,7 +4,7 @@
 
 <section class="max-w-7xl mx-auto px-4 py-8 relative overflow-hidden">
     <h2 class="text-3xl font-semibold mb-6 text-center">Sản Phẩm Nổi Bật</h2>
-    <div class="flex transition-transform duration-300 ease-in-out" id="iphone-slider">
+    <div class="flex transition-transform duration-300 ease-in-out slider">
         @foreach ($all_product as $key => $item)
         <div class="min-w-[280px] md:min-w-[320px] p-4 ">
             <div class="bg-white p-6 rounded-xl shadow-sm">
@@ -30,12 +30,12 @@
     </div>
 
     <!-- Navigation Buttons -->
-    <button id="prev-btn" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none hidden">
+    <button class="prev-btn absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none opacity-50 cursor-not-allowed">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
     </button>
-    <button id="next-btn" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none">
+    <button class="next-btn absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none opacity-100 cursor-pointer">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
@@ -45,12 +45,14 @@
 
 
 <section class="max-w-7xl mx-auto px-4 py-8 relative overflow-hidden">
-    <div class="flex justify-between items-center">
-        <h2 class="text-3xl font-semibold mb-6">Iphone</h2>
-        <a href="#" class="text-blue-600 hover:text-blue-800">Xem tất cả</a>
+    <div class="flex justify-between items-center" >
+        <h2 class="text-3xl font-semibold mb-6">iPhone</h2>
+        @if($iphone_category)
+        <a href="{{ route('category.products', $iphone_category->category_id) }}" class="text-blue-600 hover:text-blue-800">Xem tất cả</a>
+        @endif
     </div>
-    <div class="flex transition-transform duration-300 ease-in-out" id="iphone-slider">
-        @foreach ($all_product as $key => $item)
+    <div class="flex transition-transform duration-300 ease-in-out slider">
+        @foreach ($iphone_products as $key => $item)
         <div class="min-w-[280px] md:min-w-[320px] p-4 ">
             <div class="bg-white p-6 rounded-xl shadow-sm">
                 <h3 class="text-xl font-semibold mb-4">{{ $item->product_name }}</h3>
@@ -64,7 +66,8 @@
                     <a href="{{route('product_post', $item->product_id)}}" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">Tìm hiểu thêm</a>
                     <form action="{{ route('save_cart') }}" method="POST">
                         @csrf
-
+                        <input type="hidden" name="product_id_hidden" value="{{ $item->product_id }}">
+                        <input type="hidden" name="quantity" id="form-quantity" value="1">
                         <button type="submit" name="buy_now" value="1" class="text-blue-600 hover:text-blue-800">Mua ›</button>
                     </form>
                 </div>
@@ -73,12 +76,12 @@
         @endforeach
     </div>
     <!-- Navigation Buttons -->
-    <button id="prev-btn" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none hidden">
+    <button class="prev-btn absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none opacity-50 cursor-not-allowed">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
     </button>
-    <button id="next-btn" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none">
+    <button class="next-btn absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none opacity-100 cursor-pointer">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
@@ -90,10 +93,12 @@
 <section class="max-w-7xl mx-auto px-4 py-8 relative overflow-hidden">
     <div class="flex justify-between items-center">
         <h2 class="text-3xl font-semibold mb-6">Android</h2>
-        <a href="#" class="text-blue-600 hover:text-blue-800">Xem tất cả</a>
+        @if($phone_category)
+        <a href="{{ route('category.products', $phone_category->category_id) }}" class="text-blue-600 hover:text-blue-800">Xem tất cả</a>
+        @endif
     </div>
-    <div class="flex transition-transform duration-300 ease-in-out" id="iphone-slider">
-        @foreach ($all_product as $key => $item)
+    <div class="flex transition-transform duration-300 ease-in-out slider">
+        @foreach ($phone_products as $key => $item)
         <div class="min-w-[280px] md:min-w-[320px] p-4 ">
             <div class="bg-white p-6 rounded-xl shadow-sm">
                 <h3 class="text-xl font-semibold mb-4">{{ $item->product_name }}</h3>
@@ -107,7 +112,8 @@
                     <a href="{{route('product_post', $item->product_id)}}" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">Tìm hiểu thêm</a>
                     <form action="{{ route('save_cart') }}" method="POST">
                         @csrf
-
+                        <input type="hidden" name="product_id_hidden" value="{{ $item->product_id }}">
+                        <input type="hidden" name="quantity" id="form-quantity" value="1">
                         <button type="submit" name="buy_now" value="1" class="text-blue-600 hover:text-blue-800">Mua ›</button>
                     </form>
                 </div>
@@ -115,14 +121,13 @@
         </div>
         @endforeach
     </div>
-
     <!-- Navigation Buttons -->
-    <button id="prev-btn" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none hidden">
+    <button class="prev-btn absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none opacity-50 cursor-not-allowed">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
     </button>
-    <button id="next-btn" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none">
+    <button class="next-btn absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none opacity-100 cursor-pointer">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
@@ -130,13 +135,16 @@
 </section>
 
 
+
 <section class="max-w-7xl mx-auto px-4 py-8 relative overflow-hidden">
     <div class="flex justify-between items-center">
         <h2 class="text-3xl font-semibold mb-6">Laptop</h2>
-        <a href="#" class="text-blue-600 hover:text-blue-800">Xem tất cả</a>
+        @if($laptop_category)
+        <a href="{{ route('category.products', $laptop_category->category_id) }}" class="text-blue-600 hover:text-blue-800">Xem tất cả</a>
+        @endif
     </div>
-    <div class="flex transition-transform duration-300 ease-in-out" id="iphone-slider">
-        @foreach ($all_product as $key => $item)
+    <div class="flex transition-transform duration-300 ease-in-out slider">
+        @foreach ($laptop_products as $key => $item)
         <div class="min-w-[280px] md:min-w-[320px] p-4 ">
             <div class="bg-white p-6 rounded-xl shadow-sm">
                 <h3 class="text-xl font-semibold mb-4">{{ $item->product_name }}</h3>
@@ -150,7 +158,8 @@
                     <a href="{{route('product_post', $item->product_id)}}" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">Tìm hiểu thêm</a>
                     <form action="{{ route('save_cart') }}" method="POST">
                         @csrf
-
+                        <input type="hidden" name="product_id_hidden" value="{{ $item->product_id }}">
+                        <input type="hidden" name="quantity" id="form-quantity" value="1">
                         <button type="submit" name="buy_now" value="1" class="text-blue-600 hover:text-blue-800">Mua ›</button>
                     </form>
                 </div>
@@ -160,12 +169,12 @@
     </div>
 
     <!-- Navigation Buttons -->
-    <button id="prev-btn" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none hidden">
+    <button class="prev-btn absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none opacity-50 cursor-not-allowed">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
     </button>
-    <button id="next-btn" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none">
+    <button class="next-btn absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none opacity-100 cursor-pointer">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
@@ -176,10 +185,12 @@
 <section class="max-w-7xl mx-auto px-4 py-8 relative overflow-hidden">
     <div class="flex justify-between items-center">
         <h2 class="text-3xl font-semibold mb-6">Máy tính bảng</h2>
-        <a href="#" class="text-blue-600 hover:text-blue-800">Xem tất cả</a>
+        @if($tablet_category)
+        <a href="{{ route('category.products', $tablet_category->category_id) }}" class="text-blue-600 hover:text-blue-800">Xem tất cả</a>
+        @endif
     </div>
-    <div class="flex transition-transform duration-300 ease-in-out" id="iphone-slider">
-        @foreach ($all_product as $key => $item)
+    <div class="flex transition-transform duration-300 ease-in-out slider">
+        @foreach ($tablet_products as $key => $item)
         <div class="min-w-[280px] md:min-w-[320px] p-4 ">
             <div class="bg-white p-6 rounded-xl shadow-sm">
                 <h3 class="text-xl font-semibold mb-4">{{ $item->product_name }}</h3>
@@ -193,7 +204,8 @@
                     <a href="{{route('product_post', $item->product_id)}}" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">Tìm hiểu thêm</a>
                     <form action="{{ route('save_cart') }}" method="POST">
                         @csrf
-
+                        <input type="hidden" name="product_id_hidden" value="{{ $item->product_id }}">
+                        <input type="hidden" name="quantity" id="form-quantity" value="1">
                         <button type="submit" name="buy_now" value="1" class="text-blue-600 hover:text-blue-800">Mua ›</button>
                     </form>
                 </div>
@@ -203,55 +215,12 @@
     </div>
 
     <!-- Navigation Buttons -->
-    <button id="prev-btn" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none hidden">
+    <button class="prev-btn absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none opacity-50 cursor-not-allowed">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
     </button>
-    <button id="next-btn" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-    </button>
-</section>
-
-
-<section class="max-w-7xl mx-auto px-4 py-8 relative overflow-hidden">
-    <div class="flex justify-between items-center">
-        <h2 class="text-3xl font-semibold mb-6">Các Sản Phẩm Khác</h2>
-        <a href="#" class="text-blue-600 hover:text-blue-800">Xem tất cả</a>
-    </div>
-    <div class="flex transition-transform duration-300 ease-in-out" id="iphone-slider">
-        @foreach ($all_product as $key => $item)
-        <div class="min-w-[280px] md:min-w-[320px] p-4 ">
-            <div class="bg-white p-6 rounded-xl shadow-sm">
-                <h3 class="text-xl font-semibold mb-4">{{ $item->product_name }}</h3>
-                <div class="relative mb-4 h-[200px] w-[200px] mx-auto flex items-center justify-center">
-                    <img src="{{ asset('uploads/products/'.$item->product_image) }}" alt="{{ $item->product_name }}" class="max-h-[180px] w-auto object-contain">
-                </div>
-                <div class="text-sm text-gray-600 mb-4">
-                    {{ number_format($item->product_price, 0, ',', '.') }}đ
-                </div>
-                <div class="mt-4 flex items-center gap-4">
-                    <a href="{{route('product_post', $item->product_id)}}" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">Tìm hiểu thêm</a>
-                    <form action="{{ route('save_cart') }}" method="POST">
-                        @csrf
-
-                        <button type="submit" name="buy_now" value="1" class="text-blue-600 hover:text-blue-800">Mua ›</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        @endforeach
-    </div>
-
-    <!-- Navigation Buttons -->
-    <button id="prev-btn" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none hidden">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-    </button>
-    <button id="next-btn" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none">
+    <button class="next-btn absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none opacity-100 cursor-pointer">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
@@ -266,7 +235,7 @@
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-      
+
 
         <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
             <img src="{{ asset('png/sac.png') }}" alt="Cáp, sạc" class="w-20 h-20 mx-auto mb-2 object-contain">

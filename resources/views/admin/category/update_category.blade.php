@@ -14,6 +14,11 @@
                 echo '<div class="text-green-500 mb-4">' . $message . '</div>';
                 session()->forget('success');
             }
+            $error = session('error');
+            if ($error) {
+                echo '<div class="text-red-500 mb-4">' . $error . '</div>';
+                session()->forget('error');
+            }
             ?>
             <label for="category_name" class="block text-sm font-medium text-gray-700">Tên danh mục</label>
             <input type="text" name="category_name" id="category_name" value="{{ $category->category_name }}"
@@ -24,6 +29,26 @@
             </div>
             @enderror
         </div>
+        
+        <!-- Danh mục cha -->
+        <div class="mb-4">
+            <label for="parent_id" class="block text-sm font-medium text-gray-700">Danh mục cha</label>
+            <select name="parent_id" id="parent_id"
+                class="p-4 mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option value="">-- Không có danh mục cha --</option>
+                @foreach($parent_categories as $parent)
+                <option value="{{ $parent->category_id }}" {{ $category->parent_id == $parent->category_id ? 'selected' : '' }}>{{ $parent->category_name }}</option>
+                @endforeach
+            </select>
+            <p class="text-sm text-gray-500 mt-1">
+                @if($category->parent_id === null)
+                    <span class="text-blue-500">Đây là danh mục cha</span>
+                @else
+                    <span class="text-gray-500">Đây là danh mục con</span>
+                @endif
+            </p>
+        </div>
+        
         <!-- Mô tả -->
         <div class="mb-4">
             <label for="category_description" class="block text-sm font-medium text-gray-700">Mô tả</label>

@@ -16,7 +16,7 @@
     <header class="fixed top-0 left-0 right-0 bg-white shadow-sm z-50 border-b border-gray-200">
         <nav class="bg-white-900 text-black">
             <div class="max-w-7xl mx-auto px-4">
-                <div class="flex items-center justify-between h-12">
+                <div class="flex items-center justify-between h-16">
                     <!-- Logo -->
                     <div class="flex items-center">
                         <a href="{{ route('home') }}" class="text-black text-lg font-semibold">
@@ -25,176 +25,104 @@
                     </div>
 
                     <!-- Desktop Menu -->
-                    <div class="hidden md:flex items-center space-x-8">
+                    <div class="hidden lg:flex items-center space-x-4 xl:space-x-6">
                         <div class="relative group">
-                            <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">Cửa Hàng</a>
+                            <a href="{{ route('home') }}" class="text-black hover:text-gray-300 text-sm py-3 block">Trang chủ</a>
                         </div>
+
+                        <!-- Menu cố định -->
                         <div class="relative group">
-                            <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">iPhone</a>
-                            <div class="absolute top-full left-0 w-80 bg-white shadow-lg rounded-lg p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                <div class="grid grid-cols-2 gap-6">
-                                    <div>
-                                        <h3 class="text-gray-900 font-semibold mb-3">Khám Phá iPhone</h3>
-                                        <ul class="space-y-2">
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Mua iPhone</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Phụ Kiện iPhone</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Apple Trade In</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Hỗ Trợ iPhone</a></li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-gray-900 font-semibold mb-3">Danh Mục iPhone</h3>
-                                        <ul class="space-y-2">
-                                            @if(isset($categories))
-                                                @foreach ($categories as $key => $item)
-                                                    @if(strpos(strtolower($item->category_name), 'iphone') !== false)
-                                                    <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
-                                                    @endif
-                                                @endforeach
-                                            @endif
-                                        </ul>
+                            <a href="{{ route('category.products', $iphone_category->category_id ?? '#') }}" class="text-black hover:text-gray-300 text-sm py-3 block">iPhone</a>
+                            @if(isset($iphone_category) && $iphone_category->children->count() > 0)
+                            <div class="absolute top-full left-0 w-[600px] bg-white shadow-lg rounded-lg p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div>
+                                    <h3 class="text-gray-900 font-semibold mb-3">Danh Mục iPhone</h3>
+                                    <div class="flex flex-wrap">
+                                        @foreach($iphone_category->children as $child)
+                                        <div class="w-1/3 mb-2">
+                                            <a href="{{ route('category.products', $child->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $child->category_name }}</a>
+                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         </div>
                         <div class="relative group">
-                            <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">iPad</a>
-                            <div class="absolute top-full left-0 w-80 bg-white shadow-lg rounded-lg p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                <div class="grid grid-cols-2 gap-6">
-                                    <div>
-                                        <h3 class="text-gray-900 font-semibold mb-3">Khám Phá iPad</h3>
-                                        <ul class="space-y-2">
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Mua iPad</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Phụ Kiện iPad</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Apple Pencil</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Hỗ Trợ iPad</a></li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-gray-900 font-semibold mb-3">Danh Mục iPad</h3>
-                                        <ul class="space-y-2">
-                                            @foreach ($categories as $key => $item)
-                                            @if(strpos(strtolower($item->category_name), 'ipad') !== false)
-                                            <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
-                                            @endif
-                                            @endforeach
-                                        </ul>
+                            <a href="{{ route('category.products', $phone_category->category_id ?? '#') }}" class="text-black hover:text-gray-300 text-sm py-3 block">Android</a>
+                            @if(isset($phone_category) && $phone_category->children->count() > 0)
+                            <div class="absolute top-full left-0 w-[600px] bg-white shadow-lg rounded-lg p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div>
+                                    <h3 class="text-gray-900 font-semibold mb-3">Danh Mục Android</h3>
+                                    <div class="flex flex-wrap">
+                                        @foreach($phone_category->children as $child)
+                                        <div class="w-1/3 mb-2">
+                                            <a href="{{ route('category.products', $child->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $child->category_name }}</a>
+                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         </div>
                         <div class="relative group">
-                            <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">Mac</a>
-                            <div class="absolute top-full left-0 w-80 bg-white shadow-lg rounded-lg p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                <div class="grid grid-cols-2 gap-6">
-                                    <div>
-                                        <h3 class="text-gray-900 font-semibold mb-3">Khám Phá Mac</h3>
-                                        <ul class="space-y-2">
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Mua Mac</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Phụ Kiện Mac</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Apple Trade In</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Hỗ Trợ Mac</a></li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-gray-900 font-semibold mb-3">Danh Mục Mac</h3>
-                                        <ul class="space-y-2">
-                                            @foreach ($categories as $key => $item)
-                                            @if(strpos(strtolower($item->category_name), 'mac') !== false)
-                                            <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
-                                            @endif
-                                            @endforeach
-                                        </ul>
+                            <a href="{{ route('category.products', $laptop_category->category_id ?? '#') }}" class="text-black hover:text-gray-300 text-sm py-3 block">Laptop</a>
+                            @if(isset($laptop_category) && $laptop_category->children->count() > 0)
+                            <div class="absolute top-full left-0 w-[600px] bg-white shadow-lg rounded-lg p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div>
+                                    <h3 class="text-gray-900 font-semibold mb-3">Danh Mục Laptop</h3>
+                                    <div class="flex flex-wrap">
+                                        @foreach($laptop_category->children as $child)
+                                        <div class="w-1/3 mb-2">
+                                            <a href="{{ route('category.products', $child->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $child->category_name }}</a>
+                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         </div>
+
                         <div class="relative group">
-                            <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">Watch</a>
-                            <div class="absolute top-full left-0 w-80 bg-white shadow-lg rounded-lg p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                <div class="grid grid-cols-2 gap-6">
-                                    <div>
-                                        <h3 class="text-gray-900 font-semibold mb-3">Khám Phá Watch</h3>
-                                        <ul class="space-y-2">
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Mua Watch</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Phụ Kiện Watch</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Apple Trade In</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Hỗ Trợ Watch</a></li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-gray-900 font-semibold mb-3">Danh Mục Watch</h3>
-                                        <ul class="space-y-2">
-                                            @foreach ($categories as $key => $item)
-                                            @if(strpos(strtolower($item->category_name), 'watch') !== false)
-                                            <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
-                                            @endif
-                                            @endforeach
-                                        </ul>
+                            <a href="{{ route('category.products', $tablet_category->category_id ?? '#') }}" class="text-black hover:text-gray-300 text-sm py-3 block whitespace-nowrap">Máy tính bảng</a>
+                            @if(isset($tablet_category) && $tablet_category->children->count() > 0)
+                            <div class="absolute top-full left-0 w-[600px] bg-white shadow-lg rounded-lg p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div>
+                                    <h3 class="text-gray-900 font-semibold mb-3">Danh Mục Máy tính bảng</h3>
+                                    <div class="flex flex-wrap">
+                                        @foreach($tablet_category->children as $child)
+                                        <div class="w-1/3 mb-2">
+                                            <a href="{{ route('category.products', $child->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $child->category_name }}</a>
+                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         </div>
+
                         <div class="relative group">
-                            <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">Android</a>
-                            <div class="absolute top-full left-0 w-80 bg-white shadow-lg rounded-lg p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                <div class="grid grid-cols-2 gap-6">
-                                    <div>
-                                        <h3 class="text-gray-900 font-semibold mb-3">Khám Phá Android</h3>
-                                        <ul class="space-y-2">
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Khám Phá Tất Cả Android</a></li>
-                                            @foreach ($categories as $key => $item)
-                                            @if(strpos(strtolower($item->category_name), 'samsung') !== false)
-                                            <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
-                                            @endif
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-gray-900 font-semibold mb-3">Danh Mục Android</h3>
-                                        <ul class="space-y-2">
-                                            @foreach ($categories as $key => $item)
-                                            @if(strpos(strtolower($item->category_name), 'xiaomi') !== false ||
-                                            strpos(strtolower($item->category_name), 'oppo') !== false ||
-                                            strpos(strtolower($item->category_name), 'vivo') !== false ||
-                                            strpos(strtolower($item->category_name), 'realme') !== false ||
-                                            strpos(strtolower($item->category_name), 'samsung') !== false)
-                                            <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
-                                            @endif
-                                            @endforeach
-                                        </ul>
+                            <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">Phụ kiện</a>
+                            @if(isset($parent_categories))
+                            <div class="absolute top-full left-0 w-[600px] bg-white shadow-lg rounded-lg p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div>
+                                    <h3 class="text-gray-900 font-semibold mb-3">Danh Mục Phụ kiện</h3>
+                                    <div class="flex flex-wrap">
+                                        @foreach($parent_categories as $parent)
+                                        @if(strpos(strtolower($parent->category_name), 'phụ kiện') !== false)
+                                        @foreach($parent->children as $child)
+                                        <div class="w-1/3 mb-2">
+                                            <a href="{{ route('category.products', $child->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $child->category_name }}</a>
+                                        </div>
+                                        @endforeach
+                                        @endif
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         </div>
-                        <div class="relative group">
-                            <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">Phụ Kiện</a>
-                            <div class="absolute top-full left-0 w-80 bg-white shadow-lg rounded-lg p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                <div class="grid grid-cols-2 gap-6">
-                                    <div>
-                                        <h3 class="text-gray-900 font-semibold mb-3">Khám Phá Phụ Kiện</h3>
-                                        <ul class="space-y-2">
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Phụ Kiện iPhone</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Phụ Kiện iPad</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Phụ Kiện Mac</a></li>
-                                            <li><a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Phụ Kiện Watch</a></li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-gray-900 font-semibold mb-3">Danh Mục Phụ Kiện</h3>
-                                        <ul class="space-y-2">
-                                            @foreach ($categories as $key => $item)
-                                            @if(strpos(strtolower($item->category_name), 'phụ kiện') !== false ||
-                                            strpos(strtolower($item->category_name), 'tai nghe') !== false ||
-                                            strpos(strtolower($item->category_name), 'sạc') !== false)
-                                            <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
-                                            @endif
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="relative group">
                             <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">Sửa chữa</a>
                         </div>
@@ -202,7 +130,7 @@
 
                     <!-- Right Icons -->
                     <div class="flex items-center space-x-4">
-                        <button class="text-black hover:text-gray-300">
+                        <button class="text-black hover:text-gray-300 hidden sm:block">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M16.65 11a5.65 5.65 0 11-11.3 0 5.65 5.65 0 0111.3 0z" />
                             </svg>
@@ -257,7 +185,7 @@
 
                         @if(Auth::check())
                         <div class="relative group">
-                            <button class="text-black hover:text-gray-300 text-sm">
+                            <button class="text-black hover:text-gray-300 text-sm hidden sm:block">
                                 {{ Auth::user()->fullname }}
                             </button>
                             <div class="absolute top-full right-0 w-48 bg-white shadow-lg rounded-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
@@ -268,11 +196,11 @@
                             </div>
                         </div>
                         @else
-                        <a href="{{ route('login') }}" class="text-black hover:text-gray-300 text-sm">Đăng Nhập</a>
+                        <a href="{{ route('login') }}" class="text-black hover:text-gray-300 text-sm hidden sm:block">Đăng Nhập</a>
                         @endif
 
                         <!-- Mobile menu button -->
-                        <button id="mobile-menu-button" class="md:hidden text-black hover:text-gray-300 focus:outline-none">
+                        <button id="mobile-menu-button" class="lg:hidden text-black hover:text-gray-300 focus:outline-none">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path id="mobile-menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
@@ -282,122 +210,54 @@
             </div>
 
             <!-- Mobile Menu -->
-            <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200">
+            <div id="mobile-menu" class="lg:hidden hidden bg-white border-t border-gray-200">
                 <div class="px-4 py-2 space-y-1">
-                    <a href="#" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">Cửa Hàng</a>
+                    <a href="{{ route('home') }}" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">Trang chủ</a>
+
+                    @if(isset($parent_categories))
+                    @foreach($parent_categories as $parent)
                     <div class="relative">
                         <button class="mobile-submenu-button w-full flex justify-between items-center px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">
-                            <span>iPhone</span>
+                            <span>{{ $parent->category_name }}</span>
+                            @if($parent->children->count() > 0)
                             <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
+                            @endif
                         </button>
+                        @if($parent->children->count() > 0)
                         <div class="mobile-submenu hidden bg-gray-50 px-4 py-2 space-y-1">
                             <ul class="space-y-2">
-                                @foreach ($categories as $key => $item)
-                                    @if(strpos(strtolower($item->category_name), 'iphone') !== false)
-                                    <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
-                                    @endif
+                                @foreach($parent->children as $child)
+                                <li><a href="{{ route('category.products', $child->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $child->category_name }}</a></li>
                                 @endforeach
                             </ul>
                         </div>
+                        @endif
                     </div>
-                    <div class="relative">
-                        <button class="mobile-submenu-button w-full flex justify-between items-center px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">
-                            <span>iPad</span>
-                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div class="mobile-submenu hidden bg-gray-50 px-4 py-2 space-y-1">
-                            <ul class="space-y-2">
-                                @foreach ($categories as $key => $item)
-                                @if(strpos(strtolower($item->category_name), 'ipad') !== false)
-                                <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
-                                @endif
-                                @endforeach
-                            </ul>
-                        </div>
+                    @endforeach
+                    @endif
+
+                    <a href="#" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">Sửa chữa</a>
+                    
+                    @if(Auth::check())
+                    <div class="block sm:hidden pt-2 border-t border-gray-100 mt-2">
+                        <p class="px-3 py-1 text-sm text-gray-500">Tài khoản</p>
+                        <a href="{{ route('user.settings') }}" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">Thông tin tài khoản</a>
+                        <a href="{{ route('cart_view') }}" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">Đơn hàng</a>
+                        <a href="{{ route('logout') }}" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">Đăng xuất</a>
                     </div>
-                    <div class="relative">
-                        <button class="mobile-submenu-button w-full flex justify-between items-center px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">
-                            <span>Mac</span>
-                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div class="mobile-submenu hidden bg-gray-50 px-4 py-2 space-y-1">
-                            <ul class="space-y-2">
-                                @foreach ($categories as $key => $item)
-                                @if(strpos(strtolower($item->category_name), 'mac') !== false)
-                                <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
-                                @endif
-                                @endforeach
-                            </ul>
-                        </div>
+                    @else
+                    <div class="block sm:hidden pt-2 border-t border-gray-100 mt-2">
+                        <a href="{{ route('login') }}" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">Đăng nhập</a>
+                        <a href="{{ route('register') }}" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">Đăng ký</a>
                     </div>
-                    <div class="relative">
-                        <button class="mobile-submenu-button w-full flex justify-between items-center px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">
-                            <span>Watch</span>
-                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div class="mobile-submenu hidden bg-gray-50 px-4 py-2 space-y-1">
-                            <ul class="space-y-2">
-                                @foreach ($categories as $key => $item)
-                                @if(strpos(strtolower($item->category_name), 'watch') !== false)
-                                <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
-                                @endif
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="relative">
-                        <button class="mobile-submenu-button w-full flex justify-between items-center px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">
-                            <span>Android</span>
-                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div class="mobile-submenu hidden bg-gray-50 px-4 py-2 space-y-1">
-                            <ul class="space-y-2">
-                                @foreach ($categories as $key => $item)
-                                @if(strpos(strtolower($item->category_name), 'xiaomi') !== false ||
-                                strpos(strtolower($item->category_name), 'oppo') !== false ||
-                                strpos(strtolower($item->category_name), 'vivo') !== false ||
-                                strpos(strtolower($item->category_name), 'realme') !== false ||
-                                strpos(strtolower($item->category_name), 'samsung') !== false )
-                                <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
-                                @endif
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="relative">
-                        <button class="mobile-submenu-button w-full flex justify-between items-center px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">
-                            <span>Phụ Kiện</span>
-                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div class="mobile-submenu hidden bg-gray-50 px-4 py-2 space-y-1">
-                            <ul class="space-y-2">
-                                @foreach ($categories as $key => $item)
-                                @if(strpos(strtolower($item->category_name), 'phụ kiện') !== false ||
-                                strpos(strtolower($item->category_name), 'tai nghe') !== false ||
-                                strpos(strtolower($item->category_name), 'sạc') !== false)
-                                <li><a href="{{ route('category.products', $item->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $item->category_name }}</a></li>
-                                @endif
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
+                    @endif
                 </div>
         </nav>
         @yield('header')
     </header>
-    <main class="pt-6 mt-10">
+    <main class="pt-24 mt-4">
         @yield('content')
     </main>
     <!-- Footer -->

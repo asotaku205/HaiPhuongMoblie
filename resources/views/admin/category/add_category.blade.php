@@ -15,6 +15,11 @@
                 echo '<div class="text-green-500 mb-4">' . $message . '</div>';
                 session()->forget('success');
             }
+            $error = session('error');
+            if ($error) {
+                echo '<div class="text-red-500 mb-4">' . $error . '</div>';
+                session()->forget('error');
+            }
             ?>
             <label for="category_name" class="block text-sm font-medium text-gray-700">Tên danh mục</label>
             <input type="text" name="category_name" id="category_name"
@@ -24,9 +29,21 @@
                 <strong class="font-bold italic text-sm">{{ $message }}</strong>
             </div>
             @enderror
-            @yield('category_name')
         </div>
-
+        
+        <!-- Danh mục cha -->
+        <div class="mb-4">
+            <label for="parent_id" class="block text-sm font-medium text-gray-700">Danh mục cha</label>
+            <select name="parent_id" id="parent_id"
+                class="p-4 mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option value="">-- Không có danh mục cha --</option>
+                @foreach($parent_categories as $parent)
+                <option value="{{ $parent->category_id }}">{{ $parent->category_name }}</option>
+                @endforeach
+            </select>
+        </div>
+        
+        <!-- Mô tả -->
         <div class="mb-4">
             <label for="category_description" class="block text-sm font-medium text-gray-700">Mô tả</label>
             <textarea name="category_description" id="category_description" rows="3"
@@ -36,9 +53,9 @@
                 <strong class="font-bold italic text-sm">{{ $message }}</strong>
             </div>
             @enderror
-            @yield('category_description')
+           
         </div>
-
+        <!-- Trạng thái -->
         <div class="mb-4">
             <label for="category_status" class="block text-sm font-medium text-gray-700">Trạng thái</label>
             <select name="category_status" id="category_status"
@@ -46,7 +63,7 @@
                 <option value="1">Hiển thị</option>
                 <option value="0">Ẩn</option>
             </select>
-            @yield('category_status')
+        
         </div>
             
         <div class="flex items-center justify-end mt-4">
@@ -58,10 +75,10 @@
                 class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-800 focus:outline-none focus:border-indigo-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
                 <i class="fas fa-save mr-2"></i> Lưu danh mục
             </button>
-            @yield('save_category')
+         
         </div>
     </form>
-    @yield('add_category')
+   
 </div>
 
 @endsection

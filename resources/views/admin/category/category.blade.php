@@ -59,20 +59,26 @@
     </div>
 
     <!-- Bảng dữ liệu -->
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto bg-white rounded-lg shadow-md">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        <div class="flex items-center">
-                            <input type="checkbox"
-                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                        </div>
+                        <input type="checkbox"
+                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Tên danh mục
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Loại
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Danh mục cha
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -95,13 +101,40 @@
             <tbody class="bg-white divide-y divide-gray-200">
                 @if(isset($all_category) && count($all_category) > 0)
                 @foreach ($all_category as $key => $category)
-                <tr>
+                <tr class="{{ $category->parent_id === null ? 'bg-gray-50' : '' }}">
                     <td class="px-6 py-4 whitespace-nowrap">
                         <input type="checkbox"
                             class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm font-medium text-gray-900">{{ $category->category_name }}</div>
+                        <div class="text-sm font-medium text-gray-900">
+                            @if($category->parent_id !== null)
+                                <span class="ml-4">└ </span>
+                            @endif
+                            {{ $category->category_name }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-500">
+                            @if($category->parent_id === null)
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                    Danh mục cha
+                                </span>
+                            @else
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                    Danh mục con
+                                </span>
+                            @endif
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-500">
+                            @if($category->parent)
+                                {{ $category->parent->category_name }}
+                            @else
+                                -
+                            @endif
+                        </div>
                     </td>
                     <td class="px-6 py-4">
                         <div class="text-sm text-gray-500 truncate max-w-xs">{{ $category->category_description }}</div>
@@ -136,7 +169,7 @@
                 @endforeach
                 @else
                 <tr>
-                    <td colspan="5" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                    <td colspan="8" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                         Không có dữ liệu
                     </td>
                 </tr>

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('category_name');
             $table->text('category_description');
             $table->integer('category_status');
+            $table->integer('parent_id')->nullable()->default(null);
             $table->timestamps();   
         });
     }
