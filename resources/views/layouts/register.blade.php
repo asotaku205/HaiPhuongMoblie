@@ -7,6 +7,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
     <title>Đăng Ký - Hai Phuong Mobile</title>
     @vite('resources/css/app.css')
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 
 <body>
@@ -76,8 +78,13 @@
 
                     <div class="mb-4">
                         <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
-                        <input type="password" id="password" name="password"
-                            class="w-full px-3 py-2 border @error('password') border-red-500 @else border-gray-300 @enderror rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                        <div class="relative">
+                            <input type="password" id="password" name="password"
+                                class="w-full px-3 py-2 border @error('password') border-red-500 @else border-gray-300 @enderror rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onclick="togglePasswordVisibility('password')">
+                                <i id="password-toggle-icon" class="fas fa-eye text-gray-500"></i>
+                            </span>
+                        </div>
                         @error('password')
                             <div class="text-red-700 mt-1">
                                 <strong class="font-bold italic text-sm">{{ $message }}</strong>
@@ -88,8 +95,13 @@
                     <div class="mb-6">
                         <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Xác nhận
                             mật khẩu</label>
-                        <input type="password" id="password_confirmation" name="password_confirmation"
-                            class="w-full px-3 py-2 border @error('password_confirmation') border-red-500 @else border-gray-300 @enderror rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                        <div class="relative">
+                            <input type="password" id="password_confirmation" name="password_confirmation"
+                                class="w-full px-3 py-2 border @error('password_confirmation') border-red-500 @else border-gray-300 @enderror rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onclick="togglePasswordVisibility('password_confirmation')">
+                                <i id="password_confirmation-toggle-icon" class="fas fa-eye text-gray-500"></i>
+                            </span>
+                        </div>
                     </div>
 
                     <div class="flex items-center mb-6">
@@ -150,6 +162,24 @@
             <img src="{{ asset('pic/cuahang.jpg') }}" alt="Workspace" class="h-screen w-full object-cover">
         </div>
     </div>
+
+    <!-- JavaScript để hiện/ẩn mật khẩu -->
+    <script>
+        function togglePasswordVisibility(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(inputId + '-toggle-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
 </body>
 
 </html>

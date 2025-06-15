@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <title>Đăng nhập Admin - Hải Phương Mobile</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,6 +20,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-md w-full bg-white rounded-lg shadow-md p-8">
@@ -26,28 +28,33 @@
                 <h2 class="text-3xl font-bold text-gray-800">Đăng nhập Admin</h2>
                 <p class="mt-2 text-sm text-gray-600">Nhập thông tin đăng nhập để truy cập hệ thống</p>
             </div>
-            
+
             <form class="mt-8 space-y-6" action="{{route('admin_authlogin')}}" method="post">
                 @csrf
-                
+
                 <div class="rounded-md -space-y-px">
                     <div class="mb-5">
                         <label for="admusername" class="block text-sm font-medium text-gray-700 mb-1">Tên đăng nhập</label>
                         <input id="admusername" name="admusername" type="text" class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Tên đăng nhập">
                         @error('admusername')
-                            <div class="text-red-600 text-sm mt-1">
-                                <strong>{{ $message }}</strong>
-                            </div>
+                        <div class="text-red-600 text-sm mt-1">
+                            <strong>{{ $message }}</strong>
+                        </div>
                         @enderror
                     </div>
-                    
+
                     <div>
                         <label for="admpassword" class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
-                        <input id="admpassword" name="admpassword" type="password" class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Mật khẩu">
+                        <div class="relative">
+                            <input id="admpassword" name="admpassword" type="password" class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Mật khẩu">
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onclick="togglePasswordVisibility('admpassword')">
+                                <i id="admpassword-toggle-icon" class="fas fa-eye text-gray-500"></i>
+                            </span>
+                        </div>
                         @error('admpassword')
-                            <div class="text-red-600 text-sm mt-1">
-                                <strong>{{ $message }}</strong>
-                            </div>
+                        <div class="text-red-600 text-sm mt-1">
+                            <strong>{{ $message }}</strong>
+                        </div>
                         @enderror
                     </div>
                 </div>
@@ -76,23 +83,26 @@
                     </button>
                 </div>
             </form>
-            
-            <div class="mt-6">
-                <div class="relative">
-                    <div class="absolute inset-0 flex items-center">
-                        <div class="w-full border-t border-gray-300"></div>
-                    </div>
-                    <div class="relative flex justify-center text-sm">
-                        <span class="px-2 bg-white text-gray-500">
-                            Hoặc
-                        </span>
-                    </div>
-                </div>
-                <div class="mt-6 text-center text-sm">
-                    <p>Chưa có tài khoản? <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Tạo tài khoản mới</a></p>
-                </div>
-            </div>
         </div>
     </div>
+
+    <!-- JavaScript để hiện/ẩn mật khẩu -->
+    <script>
+        function togglePasswordVisibility(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(inputId + '-toggle-icon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
 </body>
+
 </html>

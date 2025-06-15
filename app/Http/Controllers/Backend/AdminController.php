@@ -29,7 +29,11 @@ class AdminController extends Controller
             'admusername' => $login,
             'password' => $password
         ];
-        if (Auth::guard('admin')->attempt($credentials)) {
+        
+        // Lấy giá trị checkbox remember
+        $remember = $request->has('remember');
+        
+        if (Auth::guard('admin')->attempt($credentials, $remember)) {
             // Tạo session mới để tránh session fixation
             $request->session()->regenerate();
             

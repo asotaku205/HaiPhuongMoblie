@@ -7,6 +7,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
     <title>Hai Phuong Mobile</title>
     @vite('resources/css/app.css')
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 
 <body>
@@ -44,8 +46,13 @@
                     @enderror
                     <div class="mb-4">
                         <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Mật Khẩu</label>
-                        <input type="password" id="password" name="password"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                        <div class="relative">
+                            <input type="password" id="password" name="password"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onclick="togglePasswordVisibility('password')">
+                                <i id="password-toggle-icon" class="fas fa-eye text-gray-500"></i>
+                            </span>
+                        </div>
                     </div>
                     @error('password')
                     
@@ -55,7 +62,7 @@
                     @enderror
                     <div class="flex items-center justify-between mb-6">
                         <div class="flex items-center">
-                            <input type="checkbox" id="remember"
+                            <input type="checkbox" id="remember" name="remember"
                                 class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
                             <label for="remember" class="ml-2 block text-sm text-gray-700">Ghi nhớ mật khẩu</label>
                         </div>
@@ -109,6 +116,24 @@
             <img src="{{ asset('pic/cuahang.jpg') }}" alt="Workspace" class="h-screen w-full object-cover">
         </div>
     </div>
+
+    <!-- JavaScript để hiện/ẩn mật khẩu -->
+    <script>
+        function togglePasswordVisibility(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(inputId + '-toggle-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
 </body>
 
 </html>

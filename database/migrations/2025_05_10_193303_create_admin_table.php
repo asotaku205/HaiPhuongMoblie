@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('admemail')->unique();
             $table->string('admpassword');
             $table->string('admphone')->unique();
+            $table->rememberToken();
             $table->timestamps();
         });
     }

@@ -36,7 +36,12 @@ class AuthController extends Controller
             $fieldType => $login,
             'password' => $password
         ];
-        if (Auth::attempt($credentials)) {
+        
+        // Lấy giá trị checkbox remember
+        $remember = $request->has('remember');
+        
+        // Thêm tham số remember vào Auth::attempt
+        if (Auth::attempt($credentials, $remember)) {
             // Lưu user_id vào session
             Session::put('user_id', Auth::id());
             
