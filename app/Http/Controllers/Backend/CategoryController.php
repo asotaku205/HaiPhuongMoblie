@@ -26,7 +26,7 @@ class CategoryController extends Controller
             ->orderBy('category_name', 'asc')
             ->get();
             
-        return view('admin.category.add_category', compact('parent_categories'));
+        return view('admin.category.category', compact('parent_categories'));
     }
 
     public function category()
@@ -69,23 +69,7 @@ class CategoryController extends Controller
             ->orderBy('category_name', 'asc')
             ->paginate(15);
             
-        $all_category->appends(['search' => $search]);
-        
-        return view('admin.category.category', compact('all_category'));
-    }
-    
-    public function edit_category($id)
-    {
-        $category = Category::findOrFail($id);
-        
-        // Lấy danh mục cha để hiển thị trong dropdown
-        $parent_categories = Category::where('parent_id', null)
-            ->where('category_id', '!=', $id) // Loại trừ danh mục hiện tại
-            ->where('category_status', 1)
-            ->orderBy('category_name', 'asc')
-            ->get();
-            
-        return view('admin.category.update_category', compact('category', 'parent_categories'));
+        return view('admin.category.category', compact('category', 'parent_categories'));
     }
     
     public function update_category(Request $request, $id)
@@ -122,7 +106,7 @@ class CategoryController extends Controller
         // Kiểm tra xem danh mục có danh mục con không
         $has_children = Category::where('parent_id', $id)->exists();
         
-        return view('admin.category.delete_category', compact('category', 'has_children'));
+        return view('admin.category.category', compact('category', 'has_children'));
     }
     
     public function destroy_category($id)

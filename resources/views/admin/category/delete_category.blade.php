@@ -3,8 +3,8 @@
 @section('page_title', 'Xóa danh mục sản phẩm')
 
 @section('content')
-<div class="bg-white p-6 rounded-lg shadow-md">
-    <div class="mb-6">
+<div class="fixed inset-0 bg-opacity-50 z-50 hidden items-center justify-center backdrop-blur-sm">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
         <h2 class="text-xl font-semibold text-gray-900 mb-4">Xác nhận xóa danh mục</h2>
         
         @if($has_children)
