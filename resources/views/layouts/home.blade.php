@@ -231,63 +231,81 @@
 <section class="max-w-7xl mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-3xl font-semibold">PHỤ KIỆN</h2>
-        <a href="#" class="text-blue-600 hover:text-blue-800">Xem tất cả</a>
+        <a href="{{ route('category.products', $accessory_category->category_id ?? '#') }}" class="text-blue-600 hover:text-blue-800">Xem tất cả</a>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        @if(isset($accessory_subcategories) && count($accessory_subcategories) > 0)
+            @foreach($accessory_subcategories as $subcategory)
+                @php
+                    $imageMap = [
+                        'Cáp sạc' => 'sac.png',
+                        'Sạc dự phòng' => 'sacduphong.png',
+                        'Ốp lưng điện thoại' => 'oplung.png',
+                        'Kính cường lực' => 'kinh.png',
+                        'Tai nghe' => 'item_phone.png',
+                    ];
+                    $image = isset($imageMap[$subcategory->category_name]) ? $imageMap[$subcategory->category_name] : 'item_phone.png';
+                @endphp
+                <a href="{{ route('category.products', ['id' => $accessory_category->category_id ?? '#', 'subcategory_id' => $subcategory->category_id]) }}" 
+                   class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
+                    <img src="{{ asset('png/'. $image) }}" alt="{{ $subcategory->category_name }}" class="w-20 h-20 mx-auto mb-2 object-contain">
+                    <p class="font-medium">{{ $subcategory->category_name }}</p>
+                </a>
+            @endforeach
+        @else
+            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
+                <img src="{{ asset('png/sac.png') }}" alt="Cáp, sạc" class="w-20 h-20 mx-auto mb-2 object-contain">
+                <p class="font-medium">Cáp, sạc</p>
+            </div>
+
+            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
+                <img src="{{ asset('png/sacduphong.png') }}" alt="Pin sạc dự phòng" class="w-20 h-20 mx-auto mb-2 object-contain">
+                <p class="font-medium">Pin sạc dự phòng</p>
+            </div>
+
+            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
+                <img src="{{ asset('png/oplung.png') }}" alt="Ốp lưng - Bao da" class="w-20 h-20 mx-auto mb-2 object-contain">
+                <p class="font-medium">Ốp lưng - Bao da</p>
+            </div>
+
+            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
+                <img src="{{ asset('png/kinh.png') }}" alt="Dán màn hình" class="w-20 h-20 mx-auto mb-2 object-contain">
+                <p class="font-medium">Dán màn hình</p>
+            </div>
+
+            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
+                <img src="{{ asset('png/usb.png') }}" alt="Thẻ nhớ, USB" class="w-20 h-20 mx-auto mb-2 object-contain">
+                <p class="font-medium">Thẻ nhớ, USB</p>
+            </div>
 
 
-        <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-            <img src="{{ asset('png/sac.png') }}" alt="Cáp, sạc" class="w-20 h-20 mx-auto mb-2 object-contain">
-            <p class="font-medium">Cáp, sạc</p>
-        </div>
+            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
+                <img src="{{ asset('png/sim.png') }}" alt="Sim 4G" class="w-20 h-20 mx-auto mb-2 object-contain">
+                <p class="font-medium">Sim 4G</p>
+            </div>
 
-        <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-            <img src="{{ asset('png/sacduphong.png') }}" alt="Pin sạc dự phòng" class="w-20 h-20 mx-auto mb-2 object-contain">
-            <p class="font-medium">Pin sạc dự phòng</p>
-        </div>
+            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
+                <img src="{{ asset('png/cap.jpg') }}" alt="Thiết bị mạng" class="w-20 h-20 mx-auto mb-2 object-contain">
+                <p class="font-medium">Thiết bị mạng</p>
+            </div>
 
-        <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-            <img src="{{ asset('png/oplung.png') }}" alt="Ốp lưng - Bao da" class="w-20 h-20 mx-auto mb-2 object-contain">
-            <p class="font-medium">Ốp lưng - Bao da</p>
-        </div>
-
-        <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-            <img src="{{ asset('png/kinh.png') }}" alt="Dán màn hình" class="w-20 h-20 mx-auto mb-2 object-contain">
-            <p class="font-medium">Dán màn hình</p>
-        </div>
-
-        <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-            <img src="{{ asset('png/usb.png') }}" alt="Thẻ nhớ, USB" class="w-20 h-20 mx-auto mb-2 object-contain">
-            <p class="font-medium">Thẻ nhớ, USB</p>
-        </div>
+            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
+                <img src="{{ asset('png/camera.png') }}" alt="Máy ảnh" class="w-20 h-20 mx-auto mb-2 object-contain">
+                <p class="font-medium">Máy ảnh</p>
+            </div>
 
 
-        <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-            <img src="{{ asset('png/sim.png') }}" alt="Sim 4G" class="w-20 h-20 mx-auto mb-2 object-contain">
-            <p class="font-medium">Sim 4G</p>
-        </div>
+            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
+                <img src="{{ asset('png/item_phone.png') }}" alt="Phụ kiện điện thoại" class="w-20 h-20 mx-auto mb-2 object-contain">
+                <p class="font-medium">Phụ kiện điện thoại</p>
+            </div>
 
-        <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-            <img src="{{ asset('png/cap.jpg') }}" alt="Thiết bị mạng" class="w-20 h-20 mx-auto mb-2 object-contain">
-            <p class="font-medium">Thiết bị mạng</p>
-        </div>
-
-        <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-            <img src="{{ asset('png/camera.png') }}" alt="Máy ảnh" class="w-20 h-20 mx-auto mb-2 object-contain">
-            <p class="font-medium">Máy ảnh</p>
-        </div>
-
-
-        <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-            <img src="{{ asset('png/item_phone.png') }}" alt="Phụ kiện điện thoại" class="w-20 h-20 mx-auto mb-2 object-contain">
-            <p class="font-medium">Phụ kiện điện thoại</p>
-        </div>
-
-        <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-            <img src="{{ asset('png/item_laptop.png') }}" alt="Phụ kiện Laptop" class="w-20 h-20 mx-auto mb-2 object-contain">
-            <p class="font-medium">Phụ kiện Laptop</p>
-        </div>
+            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
+                <img src="{{ asset('png/item_laptop.png') }}" alt="Phụ kiện Laptop" class="w-20 h-20 mx-auto mb-2 object-contain">
+                <p class="font-medium">Phụ kiện Laptop</p>
+            </div>
+        @endif
     </div>
 </section>
 @endsection

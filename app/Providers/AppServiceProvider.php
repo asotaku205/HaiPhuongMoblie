@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Chia sẻ biến categories cho tất cả các view
+        // Chia sẻ bin catếegories cho tất cả các view
         view()->composer('*', function ($view) {
             // Lấy các danh mục cha (parent_id = null)
             $parent_categories = Category::where('parent_id', null)
@@ -60,12 +60,19 @@ class AppServiceProvider extends ServiceProvider
                 ->with('children')
                 ->first();
             
+            $accessory_category = Category::where('category_name', 'Phụ kiện')
+                ->where('parent_id', null)
+                ->where('category_status', 1)
+                ->with('children')
+                ->first();
+            
             $view->with('parent_categories', $parent_categories);
             $view->with('categories', $all_categories);
             $view->with('iphone_category', $iphone_category);
             $view->with('phone_category', $phone_category);
             $view->with('laptop_category', $laptop_category);
             $view->with('tablet_category', $tablet_category);
+            $view->with('accessory_category', $accessory_category);
         });
     }
 }

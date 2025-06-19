@@ -102,20 +102,16 @@
                         </div>
 
                         <div class="relative group">
-                            <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">Phụ kiện</a>
-                            @if(isset($parent_categories))
+                            <a href="{{ route('category.products', $accessory_category->category_id ?? '#') }}" class="text-black hover:text-gray-300 text-sm py-3 block">Phụ kiện</a>
+                            @if(isset($accessory_category) && $accessory_category->children->count() > 0)
                             <div class="absolute top-full left-0 w-[600px] bg-white shadow-lg rounded-lg p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                                 <div>
                                     <h3 class="text-gray-900 font-semibold mb-3">Danh Mục Phụ kiện</h3>
                                     <div class="flex flex-wrap">
-                                        @foreach($parent_categories as $parent)
-                                        @if(strpos(strtolower($parent->category_name), 'phụ kiện') !== false)
-                                        @foreach($parent->children as $child)
+                                        @foreach($accessory_category->children as $child)
                                         <div class="w-1/3 mb-2">
                                             <a href="{{ route('category.products', $child->category_id) }}" class="text-gray-600 hover:text-blue-600 text-sm">{{ $child->category_name }}</a>
                                         </div>
-                                        @endforeach
-                                        @endif
                                         @endforeach
                                     </div>
                                 </div>

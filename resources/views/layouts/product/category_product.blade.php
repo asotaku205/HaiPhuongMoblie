@@ -70,7 +70,27 @@
                 </div>
             </div>
             
+            <!-- Bộ lọc danh mục con -->
+            @if(isset($category) && $category->parent_id === null && $category->children->count() > 0)
             <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Danh mục </label>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200 overflow-y-auto max-h-48">
+                    <div class="flex items-center">
+                        <input type="radio" id="subcategory_all" name="subcategory_id" value="" {{ request('subcategory_id') == '' || !request('subcategory_id') ? 'checked' : '' }} class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="subcategory_all" class="ml-2 block text-sm text-gray-700">Tất cả</label>
+                    </div>
+                    
+                    @foreach($category->children as $subcategory)
+                    <div class="flex items-center">
+                        <input type="radio" id="subcategory_{{ $subcategory->category_id }}" name="subcategory_id" value="{{ $subcategory->category_id }}" {{ request('subcategory_id') == $subcategory->category_id ? 'checked' : '' }} class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="subcategory_{{ $subcategory->category_id }}" class="ml-2 block text-sm text-gray-700">{{ $subcategory->category_name }}</label>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+            
+            <div class="md:col-span-{{ isset($category) && $category->parent_id === null && $category->children->count() > 0 ? '1' : '2' }}">
                 <label for="price_range" class="block text-sm font-medium text-gray-700 mb-2">Khoảng giá</label>
                 <div class="grid grid-cols-2 gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200">
                     <div class="flex items-center">
@@ -135,19 +155,30 @@
                 <p class="text-gray-700 font-medium">
                     <i class="fas fa-tag mr-2 text-blue-600"></i>
                     <span class="font-bold text-blue-700">{{ $products->total() }}</span> sản phẩm được tìm thấy
-                    @if(request('search') || request('price_range') || request('sort'))
+                    @if(request('search') || request('price_range') || request('sort') || request('subcategory_id'))
                         với bộ lọc hiện tại
                     @endif
                 </p>
             </div>
             
-            @if(request('search') || request('price_range') || request('sort'))
+            @if(request('search') || request('price_range') || request('sort') || request('subcategory_id'))
             <div class="flex flex-wrap items-center mt-2 md:mt-0">
                 <span class="text-gray-700 mr-2 font-medium">Bộ lọc đang áp dụng:</span>
                 
                 @if(request('search'))
                 <span class="bg-blue-100 text-blue-800 text-xs font-medium px-3 py-1.5 rounded-full mr-2 mb-2 flex items-center">
                     <i class="fas fa-search mr-1"></i> {{ request('search') }}
+                </span>
+                @endif
+                
+                @if(request('subcategory_id'))
+                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-3 py-1.5 rounded-full mr-2 mb-2 flex items-center">
+                    <i class="fas fa-tag mr-1"></i>
+                    @foreach($category->children as $subcategory)
+                        @if($subcategory->category_id == request('subcategory_id'))
+                            {{ $subcategory->category_name }}
+                        @endif
+                    @endforeach
                 </span>
                 @endif
                 

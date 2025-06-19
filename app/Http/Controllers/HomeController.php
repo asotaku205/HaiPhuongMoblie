@@ -94,6 +94,41 @@ class HomeController extends Controller
         // Sản phẩm nổi bật
         $all_product = DB::table('product')->where('product_status', 1)->orderBy('product_id', 'desc')->limit(10)->get();
             
+        // Lấy danh mục cha
+        $iphone_category = Category::where('category_name', 'like', "%iPhone%")
+            ->where('parent_id', null)
+            ->where('category_status', 1)
+            ->first();
+            
+        $phone_category = Category::where('category_name', 'like', "%Android%")
+            ->where('parent_id', null)
+            ->where('category_status', 1)
+            ->first();
+            
+        $laptop_category = Category::where('category_name', 'like', "%Laptop%")
+            ->where('parent_id', null)
+            ->where('category_status', 1)
+            ->first();
+            
+        $tablet_category = Category::where('category_name', 'like', "%Máy tính bảng%")
+            ->where('parent_id', null)
+            ->where('category_status', 1)
+            ->first();
+            
+        $accessory_category = Category::where('category_name', 'like', "%Phụ kiện%")
+            ->where('parent_id', null)
+            ->where('category_status', 1)
+            ->first();
+            
+        // Lấy danh mục con của phụ kiện
+        $accessory_subcategories = collect();
+        if ($accessory_category) {
+            $accessory_subcategories = Category::where('parent_id', $accessory_category->category_id)
+                ->where('category_status', 1)
+                ->orderBy('category_name', 'asc')
+                ->get();
+        }
+        
         // Lấy sản phẩm theo danh mục cha
         $iphone_products = $this->getProductsByParentCategory('iPhone');
         $phone_products = $this->getProductsByParentCategory('Android');
@@ -105,7 +140,13 @@ class HomeController extends Controller
             'iphone_products',
             'phone_products', 
             'laptop_products', 
-            'tablet_products'
+            'tablet_products',
+            'iphone_category',
+            'phone_category',
+            'laptop_category',
+            'tablet_category',
+            'accessory_category',
+            'accessory_subcategories'
         ));
     }
     
@@ -124,16 +165,36 @@ class HomeController extends Controller
             // Khởi tạo query
             $query = null;
             
-            // Nếu là danh mục cha, lấy sản phẩm của tất cả danh mục con
+            // Nếu là danh mục cha, lấy sản phẩm của tất cả danh mục con hoặc theo subcategory_id nếu có
             if ($category->parent_id === null) {
-                // Lấy tất cả ID của danh mục con
-                $categoryIds = $category->getAllChildrenIds();
-                // Thêm ID của danh mục cha vào danh sách
-                $categoryIds[] = $category->category_id;
-                
-                $query = DB::table('product')
-                    ->whereIn('category_id', $categoryIds)
-                    ->where('product_status', 1);
+                if ($request->has('subcategory_id') && !empty($request->subcategory_id)) {
+                    // Nếu có chọn danh mục con, chỉ lấy sản phẩm của danh mục con đó
+                    $subcategoryId = $request->subcategory_id;
+                    $subcategory = Category::find($subcategoryId);
+                    
+                    if ($subcategory && $subcategory->parent_id == $category->category_id) {
+                        $query = DB::table('product')
+                            ->where('category_id', $subcategoryId)
+                            ->where('product_status', 1);
+                    } else {
+                        // Nếu không tìm thấy danh mục con hợp lệ, lấy tất cả sản phẩm của danh mục cha và danh mục con
+                        $categoryIds = $category->getAllChildrenIds();
+                        $categoryIds[] = $category->category_id;
+                        
+                        $query = DB::table('product')
+                            ->whereIn('category_id', $categoryIds)
+                            ->where('product_status', 1);
+                    }
+                } else {
+                    // Lấy tất cả ID của danh mục con
+                    $categoryIds = $category->getAllChildrenIds();
+                    // Thêm ID của danh mục cha vào danh sách
+                    $categoryIds[] = $category->category_id;
+                    
+                    $query = DB::table('product')
+                        ->whereIn('category_id', $categoryIds)
+                        ->where('product_status', 1);
+                }
             } else {
                 // Nếu là danh mục con, chỉ lấy sản phẩm của danh mục đó
                 $query = DB::table('product')

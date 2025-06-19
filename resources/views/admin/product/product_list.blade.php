@@ -88,6 +88,10 @@
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Tồn kho
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Trạng thái
                     </th>
                     <th scope="col"
@@ -111,12 +115,31 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm font-medium text-gray-900">{{ $product->product_name }}</div>
+                        @if(!empty($product->capacity))
+                            <div class="text-xs text-gray-500">{{ $product->capacity }}</div>
+                        @endif
+                        @if(!empty($product->color))
+                            <div class="text-xs text-gray-500">{{ $product->color }}</div>
+                        @endif
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-500">{{ $product->category_name }}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-900">{{ number_format($product->product_price) }}đ</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">
+                            @if(isset($product->stock_quantity))
+                                @if($product->stock_quantity > 0)
+                                    <span class="text-green-600">{{ $product->stock_quantity }}</span>
+                                @else
+                                    <span class="text-red-600">0</span>
+                                @endif
+                            @else
+                                <span class="text-gray-400">--</span>
+                            @endif
+                        </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         @if ($product->product_status == 1)
@@ -145,7 +168,7 @@
                 @endforeach
                 @else
                 <tr>
-                    <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                    <td colspan="8" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                         Không có dữ liệu
                     </td>
                 </tr>

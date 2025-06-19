@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ProductPostController extends Controller
@@ -10,21 +11,16 @@ class ProductPostController extends Controller
     public function product_post($id)
     {
         // Lấy danh mục sản phẩm
-        $category = DB::table('category_product')
-            ->where('category_status', 1)
+        $categories = Category::where('category_status', 1)
             ->orderBy('category_id', 'desc')
             ->get();
         
         // Lấy thông tin chi tiết của sản phẩm
-        $product = DB::table('product')
-            ->join('category_product', 'product.category_id', '=', 'category_product.category_id')
-            ->select('product.*', 'category_product.category_name')
-            ->where('product_id', $id)
-            ->first();
+        $product = Product::with('category')
+            ->findOrFail($id);
         
         // Lấy danh sách sản phẩm tương tự (cùng danh mục)
-        $all_product = DB::table('product')
-            ->where('category_id', $product->category_id)
+        $similar_products = Product::where('category_id', $product->category_id)
             ->where('product_id', '!=', $id)
             ->where('product_status', 1)
             ->orderBy('product_id', 'desc')
@@ -32,18 +28,19 @@ class ProductPostController extends Controller
             ->get();
         
         // Nếu không đủ 4 sản phẩm tương tự, bổ sung thêm các sản phẩm khác
-        if(count($all_product) < 4) {
-            $more_products = DB::table('product')
-                ->where('product_status', 1)
+        if(count($similar_products) < 4) {
+            $more_products = Product::where('product_status', 1)
                 ->where('product_id', '!=', $id)
-                ->whereNotIn('product_id', $all_product->pluck('product_id')->toArray())
+                ->whereNotIn('product_id', $similar_products->pluck('product_id')->toArray())
                 ->orderBy('product_id', 'desc')
-                ->limit(4 - count($all_product))
+                ->limit(4 - count($similar_products))
                 ->get();
             
-            $all_product = $all_product->merge($more_products);
+            $all_product = $similar_products->merge($more_products);
+        } else {
+            $all_product = $similar_products;
         }
         
-        return view('layouts.product.product_post', compact('category', 'product', 'all_product'));
+        return view('layouts.product.product_post', compact('categories', 'product', 'all_product'));
     }
 }

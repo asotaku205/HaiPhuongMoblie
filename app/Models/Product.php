@@ -19,7 +19,19 @@ class Product extends Model
         'product_content',
         'product_price',
         'product_image',
-        'product_status'
+        'product_images',
+        'product_status',
+        'stock_quantity',
+        'in_stock',
+        'product_specs',
+        'color',
+        'capacity'
+    ];
+    
+    protected $casts = [
+        'product_specs' => 'array',
+        'product_images' => 'array',
+        'in_stock' => 'boolean',
     ];
     
     public function category()
@@ -30,5 +42,28 @@ class Product extends Model
     public function carts()
     {
         return $this->hasMany(Cart::class, 'product_id', 'product_id');
+    }
+    
+    /**
+     * Lấy danh sách màu có sẵn cho sản phẩm
+     * 
+     * @return array Danh sách các màu sắc có thể có của sản phẩm 
+     */
+    public function getAvailableColors()
+    {
+        // Nếu màu được lưu dưới dạng một màu duy nhất
+        if ($this->color) {
+            return [$this->color];
+        }
+        
+        // Nếu thông số kỹ thuật có chứa màu sắc
+        if ($this->product_specs && isset($this->product_specs['Màu sắc'])) {
+            $colors = $this->product_specs['Màu sắc'];
+            if (is_string($colors) && strpos($colors, ',') !== false) {
+                return array_map('trim', explode(',', $colors));
+            }
+        }
+        
+        return [];
     }
 }
