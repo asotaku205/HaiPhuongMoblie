@@ -253,7 +253,7 @@
         </nav>
         @yield('header')
     </header>
-    <main class="pt-24 mt-4">
+    <main class="pt-16">
         @yield('content')
     </main>
     <!-- Footer -->
@@ -370,5 +370,5 @@
         @yield('footer')
     </footer>
 </body>
-
+@yield('scripts')
 </html>

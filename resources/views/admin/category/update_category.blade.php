@@ -27,7 +27,7 @@
             <div class="text-red-700 mt-1">
                 <strong class="font-bold italic text-sm">{{ $message }}</strong>
             </div>
-            @enderror
+            @enderrorb
         </div>
         
         <!-- Danh mục cha -->

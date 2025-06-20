@@ -1,7 +1,23 @@
 @extends('layouts.main')
 @section('title', 'Trang Chủ - Hải Phương Mobile')
 @section('content')
-
+<!-- Thanh tìm kiếm với background -->
+<div class="h-screen w-full bg-cover bg-bottom md:bg-center bg-no-repeat flex items-center justify-center md:items-start pt-0 md:pt-24" style="background-image: url('{{ asset('pic/cuahang.jpg') }}'); background-position: center top;">
+    <div class="w-full px-4">
+        <div class="max-w-3xl mx-auto">
+            <div class="bg-white bg-opacity-90 rounded-lg shadow-lg">
+                <form action="{{ route('search') }}" method="GET" class="flex items-center">
+                    <input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm..." class="w-full p-3 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg">
+                    <button type="submit" class="bg-blue-600 text-white p-4 rounded-r-lg hover:bg-blue-700 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M16.65 11a5.65 5.65 0 11-11.3 0 5.65 5.65 0 0111.3 0z"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <section class="max-w-7xl mx-auto px-4 py-8 relative overflow-hidden">
     <h2 class="text-3xl font-semibold mb-6 text-center">Sản Phẩm Nổi Bật</h2>
     <div class="flex transition-transform duration-300 ease-in-out slider">
@@ -45,7 +61,7 @@
 
 
 <section class="max-w-7xl mx-auto px-4 py-8 relative overflow-hidden">
-    <div class="flex justify-between items-center" >
+    <div class="flex justify-between items-center">
         <h2 class="text-3xl font-semibold mb-6">iPhone</h2>
         @if($iphone_category)
         <a href="{{ route('category.products', $iphone_category->category_id) }}" class="text-blue-600 hover:text-blue-800">Xem tất cả</a>
@@ -227,85 +243,46 @@
     </button>
 </section>
 
-
-<section class="max-w-7xl mx-auto px-4 py-8">
-    <div class="flex justify-between items-center mb-6">
-        <h2 class="text-3xl font-semibold">PHỤ KIỆN</h2>
-        <a href="{{ route('category.products', $accessory_category->category_id ?? '#') }}" class="text-blue-600 hover:text-blue-800">Xem tất cả</a>
+<section class="max-w-7xl mx-auto px-4 py-8 relative overflow-hidden">
+    <div class="flex justify-between items-center">
+        <h2 class="text-3xl font-semibold mb-6">Phụ kiện</h2>
+        <a href="{{ route('category.products', $accessory_category->category_id) }}" class="text-blue-600 hover:text-blue-800">Xem tất cả</a>
+    </div>
+    <div class="flex transition-transform duration-300 ease-in-out slider">
+        @foreach ($accessory_products as $key => $item)
+        <div class="min-w-[280px] md:min-w-[320px] p-4 ">
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <h3 class="text-xl font-semibold mb-4">{{ $item->product_name }}</h3>
+                <div class="relative mb-4 h-[200px] w-[200px] mx-auto flex items-center justify-center">
+                    <img src="{{ asset('uploads/products/'.$item->product_image) }}" alt="{{ $item->product_name }}" class="max-h-[180px] w-auto object-contain">
+                </div>
+                <div class="text-sm text-gray-600 mb-4">
+                    {{ number_format($item->product_price, 0, ',', '.') }}đ
+                </div>
+                <div class="mt-4 flex items-center gap-4">
+                    <a href="{{route('product_post', $item->product_id)}}" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">Tìm hiểu thêm</a>
+                    <form action="{{ route('save_cart') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="product_id_hidden" value="{{ $item->product_id }}">
+                        <input type="hidden" name="quantity" id="form-quantity" value="1">
+                        <button type="submit" name="buy_now" value="1" class="text-blue-600 hover:text-blue-800">Mua ›</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        @endforeach
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        @if(isset($accessory_subcategories) && count($accessory_subcategories) > 0)
-            @foreach($accessory_subcategories as $subcategory)
-                @php
-                    $imageMap = [
-                        'Cáp sạc' => 'sac.png',
-                        'Sạc dự phòng' => 'sacduphong.png',
-                        'Ốp lưng điện thoại' => 'oplung.png',
-                        'Kính cường lực' => 'kinh.png',
-                        'Tai nghe' => 'item_phone.png',
-                    ];
-                    $image = isset($imageMap[$subcategory->category_name]) ? $imageMap[$subcategory->category_name] : 'item_phone.png';
-                @endphp
-                <a href="{{ route('category.products', ['id' => $accessory_category->category_id ?? '#', 'subcategory_id' => $subcategory->category_id]) }}" 
-                   class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-                    <img src="{{ asset('png/'. $image) }}" alt="{{ $subcategory->category_name }}" class="w-20 h-20 mx-auto mb-2 object-contain">
-                    <p class="font-medium">{{ $subcategory->category_name }}</p>
-                </a>
-            @endforeach
-        @else
-            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-                <img src="{{ asset('png/sac.png') }}" alt="Cáp, sạc" class="w-20 h-20 mx-auto mb-2 object-contain">
-                <p class="font-medium">Cáp, sạc</p>
-            </div>
-
-            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-                <img src="{{ asset('png/sacduphong.png') }}" alt="Pin sạc dự phòng" class="w-20 h-20 mx-auto mb-2 object-contain">
-                <p class="font-medium">Pin sạc dự phòng</p>
-            </div>
-
-            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-                <img src="{{ asset('png/oplung.png') }}" alt="Ốp lưng - Bao da" class="w-20 h-20 mx-auto mb-2 object-contain">
-                <p class="font-medium">Ốp lưng - Bao da</p>
-            </div>
-
-            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-                <img src="{{ asset('png/kinh.png') }}" alt="Dán màn hình" class="w-20 h-20 mx-auto mb-2 object-contain">
-                <p class="font-medium">Dán màn hình</p>
-            </div>
-
-            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-                <img src="{{ asset('png/usb.png') }}" alt="Thẻ nhớ, USB" class="w-20 h-20 mx-auto mb-2 object-contain">
-                <p class="font-medium">Thẻ nhớ, USB</p>
-            </div>
-
-
-            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-                <img src="{{ asset('png/sim.png') }}" alt="Sim 4G" class="w-20 h-20 mx-auto mb-2 object-contain">
-                <p class="font-medium">Sim 4G</p>
-            </div>
-
-            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-                <img src="{{ asset('png/cap.jpg') }}" alt="Thiết bị mạng" class="w-20 h-20 mx-auto mb-2 object-contain">
-                <p class="font-medium">Thiết bị mạng</p>
-            </div>
-
-            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-                <img src="{{ asset('png/camera.png') }}" alt="Máy ảnh" class="w-20 h-20 mx-auto mb-2 object-contain">
-                <p class="font-medium">Máy ảnh</p>
-            </div>
-
-
-            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-                <img src="{{ asset('png/item_phone.png') }}" alt="Phụ kiện điện thoại" class="w-20 h-20 mx-auto mb-2 object-contain">
-                <p class="font-medium">Phụ kiện điện thoại</p>
-            </div>
-
-            <div class="bg-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
-                <img src="{{ asset('png/item_laptop.png') }}" alt="Phụ kiện Laptop" class="w-20 h-20 mx-auto mb-2 object-contain">
-                <p class="font-medium">Phụ kiện Laptop</p>
-            </div>
-        @endif
-    </div>
+    <!-- Navigation Buttons -->
+    <button class="prev-btn absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none opacity-50 cursor-not-allowed">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+    </button>
+    <button class="next-btn absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-300 focus:outline-none opacity-100 cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+    </button>
 </section>
 @endsection

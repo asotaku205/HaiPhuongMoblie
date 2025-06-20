@@ -232,5 +232,35 @@ class ProductSeeder extends Seeder
                 'Màu sắc' => 'Đen'
             ])
         ]);
+        
+        // Máy tính bảng iPad
+        DB::table('product')->insert([
+            'product_name' => 'iPad Pro M2 12.9 inch',
+            'category_id' => 19, // ID của danh mục iPad
+            'product_description' => 'iPad Pro M2 12.9 inch với màn hình Liquid Retina XDR',
+            'product_content' => 'iPad Pro M2 là máy tính bảng cao cấp nhất của Apple với chip M2 mạnh mẽ, màn hình Liquid Retina XDR 12.9 inch, camera sau kép với máy quét LiDAR và hỗ trợ Apple Pencil thế hệ 2.',
+            'product_price' => 32990000,
+            'product_image' => 'ipad.jpg',
+            'product_images' => json_encode(['ipad.jpg']),
+            'product_status' => 1,
+            'stock_quantity' => 10,
+            'in_stock' => true,
+            'color' => 'Xám Space Gray',
+            'capacity' => '256GB',
+            'product_specs' => json_encode([
+                'Màn hình' => '12.9 inch, Liquid Retina XDR, 2732 x 2048 pixel, 120Hz',
+                'Chip' => 'Apple M2',
+                'RAM' => '8 GB',
+                'Bộ nhớ trong' => '256 GB',
+                'Camera sau' => 'Chính 12MP, Ultra Wide 10MP, LiDAR Scanner',
+                'Camera trước' => '12 MP Ultra Wide, f/2.4',
+                'Pin' => 'Khoảng 10 giờ lướt web hoặc xem video',
+                'Kết nối' => 'Wi-Fi 6E, Bluetooth 5.3, USB-C Thunderbolt / USB 4',
+                'Hệ điều hành' => 'iPadOS 16',
+                'Kích thước' => '280.6 x 214.9 x 6.4 mm',
+                'Trọng lượng' => '682g',
+                'Tính năng khác' => 'Hỗ trợ Apple Pencil thế hệ 2, Magic Keyboard, Face ID'
+            ])
+        ]);
     }
 }

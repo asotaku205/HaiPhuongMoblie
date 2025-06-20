@@ -134,6 +134,9 @@ class HomeController extends Controller
         $phone_products = $this->getProductsByParentCategory('Android');
         $laptop_products = $this->getProductsByParentCategory('Laptop');
         $tablet_products = $this->getProductsByParentCategory('Máy tính bảng');
+        
+        // Lấy sản phẩm phụ kiện
+        $accessory_products = $this->getProductsByParentCategory('Phụ kiện');
             
         return view('layouts.home', compact(
             'all_product', 
@@ -146,7 +149,8 @@ class HomeController extends Controller
             'laptop_category',
             'tablet_category',
             'accessory_category',
-            'accessory_subcategories'
+            'accessory_subcategories',
+            'accessory_products'
         ));
     }
     
@@ -287,4 +291,29 @@ class HomeController extends Controller
         return view('layouts.product.category_product', compact('category', 'products', 'related_categories', 'parent_categories'));
     }
 
+    public function search(Request $request)
+    {
+        $keyword = $request->keyword;
+        
+        // Nếu không có từ khóa tìm kiếm, chuyển hướng về trang chủ
+        if (!$keyword) {
+            return redirect()->route('home');
+        }
+        
+        // Tìm kiếm sản phẩm theo từ khóa
+        $products = Product::where('product_name', 'like', '%' . $keyword . '%')
+            ->orWhere('product_description', 'like', '%' . $keyword . '%')
+            ->where('product_status', 1)
+            ->orderBy('product_id', 'desc')
+            ->paginate(12);
+            
+        // Lấy tất cả danh mục cha cho menu
+        $parent_categories = Category::where('parent_id', null)
+            ->where('category_status', 1)
+            ->with('children')
+            ->orderBy('category_name', 'asc')
+            ->get();
+            
+        return view('layouts.product.search_results', compact('products', 'keyword', 'parent_categories'));
+    }
 }

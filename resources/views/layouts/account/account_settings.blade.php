@@ -92,24 +92,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Phương thức thanh toán -->
-            <div>
-                <div class="flex justify-between items-center mb-2">
-                    <h3 class="text-lg font-semibold">Phương thức thanh toán</h3>
-                </div>
-                <div class="bg-white p-4 rounded-xl shadow-lg">
-                    <div class="flex items-center gap-2">
-                        <img src="{{ asset('images/visa.png') }}" alt="Visa" class="h-6">
-                        <span> {{ substr($user->card_number ?? 'Số thẻ', -4) }}</span>
-                    </div>
-                    <p class="mt-1">{{ $user->card_expiry ?? 'Ngày hết hạn' }}</p>
-                    <div class="mt-2">
-                        <a href="#" class="text-blue-600 hover:underline" data-modal-target="paymentMethodModal">Chỉnh sửa</a> |
-                        <a href="#" class="text-blue-600 hover:underline">Xóa</a>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

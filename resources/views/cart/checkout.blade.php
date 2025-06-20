@@ -74,18 +74,23 @@
                     
                     <div class="space-y-4">
                         <div class="flex items-center">
-                            <input type="radio" id="cod" name="payment_method" value="COD" class="h-4 w-4 text-blue-600" checked>
+                            <input type="radio" id="cod" name="payment_method" value="COD" class="h-4 w-4 text-blue-600" checked onclick="toggleQRCode('none')">
                             <label for="cod" class="ml-2 text-sm font-medium text-gray-700">Thanh toán khi nhận hàng (COD)</label>
                         </div>
                         
                         <div class="flex items-center">
-                            <input type="radio" id="bank_transfer" name="payment_method" value="Bank Transfer" class="h-4 w-4 text-blue-600">
+                            <input type="radio" id="bank_transfer" name="payment_method" value="Bank Transfer" class="h-4 w-4 text-blue-600" onclick="toggleQRCode('block')">
                             <label for="bank_transfer" class="ml-2 text-sm font-medium text-gray-700">Chuyển khoản ngân hàng</label>
                         </div>
-                        
-                        <div class="flex items-center">
-                            <input type="radio" id="credit_card" name="payment_method" value="Credit Card" class="h-4 w-4 text-blue-600">
-                            <label for="credit_card" class="ml-2 text-sm font-medium text-gray-700">Thẻ tín dụng/Ghi nợ</label>
+                        <!-- Hiển thị mã QR khi chọn chuyển khoản -->
+                        <div id="qrCodeSection" class="hidden mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200 text-center">
+                            <h3 class="font-medium text-gray-800 mb-2">Quét mã QR để thanh toán</h3>
+                            <p class="text-sm text-gray-600 mb-3">Số tài khoản: 0663 3099 701</p>
+                            <div class="flex justify-center">
+                                <img src="{{ asset('images/qr-payment.jpg') }}" alt="Mã QR thanh toán" class="max-w-xs">
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">Ngân hàng TP Bank - Chủ TK: Đỗ Trần Anh Sơn</p>
+                            <p class="text-sm text-gray-600">Nội dung chuyển khoản: Thanh toán đơn hàng [Họ tên của bạn]</p>
                         </div>
                     </div>
                 </div>
@@ -147,4 +152,12 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    function toggleQRCode(displayStyle) {
+        document.getElementById('qrCodeSection').style.display = displayStyle;
+    }
+</script>
 @endsection
