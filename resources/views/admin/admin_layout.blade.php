@@ -107,6 +107,13 @@
                                 <i class="fas fa-users mr-3 text-gray-400 group-hover:text-gray-300"></i>
                                 Người dùng
                             </a>
+
+                            <!-- Blog Management -->
+                            <a href="{{ route('admin.blogs.index') }}"
+                                class="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-gray-300 hover:bg-gray-700 hover:text-white {{ request()->routeIs('admin.blogs.*') ? 'bg-gray-700 text-white' : '' }}">
+                                <i class="fas fa-blog mr-3 text-gray-400 group-hover:text-gray-300"></i>
+                                Blog Sửa Chữa
+                            </a>
                         </nav>
                     </div>
                 </div>
@@ -191,7 +198,7 @@
             <main class="flex-1 overflow-y-auto focus:outline-none bg-gray-50">
                 <div class="py-6">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                        <h1 class="text-2xl font-semibold text-gray-900">@yield('page_title', 'Dashboard')</h1>
+                        <h1 class="text-2xl font-semibold text-gray-900">@yield('page_title')</h1>
                     </div>
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                         <!-- Phần nội dung chính -->

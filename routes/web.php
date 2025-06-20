@@ -6,10 +6,12 @@ use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Middleware\AdminAuth;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\AdminBlogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductPostController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Backend\OrderController;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +53,15 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'auth_register'])->name('auth_register');
+
+// Blog Routes
+Route::prefix('blogs')->group(function () {
+    Route::get('/', [BlogController::class, 'index'])->name('blogs.index');
+    Route::get('/create', [BlogController::class, 'create'])->name('blogs.create');
+    Route::post('/', [BlogController::class, 'store'])->name('blogs.store');
+    Route::get('/{id}', [BlogController::class, 'show'])->name('blogs.show');
+    Route::post('/{id}/comments', [BlogController::class, 'storeComment'])->name('blogs.comments.store');
+});
 
 
 //backend
@@ -100,6 +111,16 @@ Route::middleware(['admin_auth'])->prefix('admin')->group(function () {
         Route::post('/{id}/update-status', [OrderController::class, 'updateStatus'])->name('admin.orders.update-status');
         Route::post('/{id}/update-payment', [OrderController::class, 'updatePaymentStatus'])->name('admin.orders.update-payment');
         Route::delete('/{id}', [OrderController::class, 'destroy'])->name('admin.orders.destroy');
+    });
+
+    // Quản lý blog sửa chữa
+    Route::prefix('blogs')->group(function () {
+        Route::get('/', [AdminBlogController::class, 'index'])->name('admin.blogs.index');
+        Route::get('/{id}', [AdminBlogController::class, 'show'])->name('admin.blogs.show');
+        Route::post('/{id}/update-status', [AdminBlogController::class, 'updateStatus'])->name('admin.blogs.update-status');
+        Route::post('/{id}/comments', [AdminBlogController::class, 'storeComment'])->name('admin.blogs.comments.store');
+        Route::delete('/{id}', [AdminBlogController::class, 'destroy'])->name('admin.blogs.destroy');
+        Route::delete('/comments/{id}', [AdminBlogController::class, 'destroyComment'])->name('admin.blogs.comments.destroy');
     });
 });
 Route::prefix('admin')->group(function () {

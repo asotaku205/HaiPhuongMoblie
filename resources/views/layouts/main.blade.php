@@ -120,7 +120,7 @@
                         </div>
 
                         <div class="relative group">
-                            <a href="#" class="text-black hover:text-gray-300 text-sm py-3 block">Sửa chữa</a>
+                            <a href="{{ route('blogs.index') }}" class="text-black hover:text-gray-300 text-sm py-3 block">Sửa Chữa</a>
                         </div>
                     </div>
 
@@ -356,11 +356,14 @@
 
             <!-- Copyright -->
             <div class="mt-8 border-t border-gray-200 pt-8 text-center">
-                <p class="text-sm text-gray-600">© 2024 HaiPhuongMobile. Tất cả quyền được bảo lưu.</p>
+                <p class="text-sm text-gray-600">© 2025 HaiPhuongMobile. Tất cả quyền được bảo lưu.</p>
             </div>
         </div>
         @yield('footer')
     </footer>
+
+    <!-- Common JavaScript -->
+    <script src="{{ asset('js/common.js') }}"></script>
 </body>
 @yield('scripts')
 </html>

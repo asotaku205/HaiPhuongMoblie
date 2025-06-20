@@ -147,4 +147,223 @@ class CategoryController extends Controller
         Session::put('success', 'Xóa danh mục thành công');
         return redirect()->route('category')->with('success', 'Xóa danh mục thành công');
     }
+    
+    /**
+     * Xử lý bulk actions cho danh mục
+     */
+    public function bulkAction(Request $request)
+    {
+        $action = $request->input('bulk_action');
+        $selectedItems = $request->input('selected_items', []);
+        
+        if (empty($selectedItems)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Vui lòng chọn ít nhất một danh mục!'
+            ]);
+        }
+        
+        try {
+            switch ($action) {
+                case 'delete':
+                    return $this->bulkDeleteCategory($selectedItems);
+                    
+                case 'activate':
+                    return $this->bulkActivateCategory($selectedItems);
+                    
+                case 'deactivate':
+                    return $this->bulkDeactivateCategory($selectedItems);
+                    
+                case 'bulk_edit':
+                    return $this->bulkEditCategory($request, $selectedItems);
+                    
+                case 'export':
+                    return $this->bulkExportCategory($selectedItems);
+                    
+                default:
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Hành động không hợp lệ!'
+                    ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra: ' . $e->getMessage()
+            ]);
+        }
+    }
+    
+    /**
+     * Xóa hàng loạt danh mục
+     */
+    private function bulkDeleteCategory($selectedItems)
+    {
+        try {
+            // Kiểm tra xem có danh mục nào đang được sử dụng không
+            $usedCategories = DB::table('product')
+                ->whereIn('category_id', $selectedItems)
+                ->pluck('category_id')
+                ->toArray();
+                
+            if (!empty($usedCategories)) {
+                $usedCount = count($usedCategories);
+                Session::flash('error', "Không thể xóa {$usedCount} danh mục vì đang có sản phẩm sử dụng!");
+                return redirect()->back();
+            }
+            
+            // Kiểm tra danh mục con
+            $hasChildren = DB::table('category_product')
+                ->whereIn('parent_id', $selectedItems)
+                ->exists();
+                
+            if ($hasChildren) {
+                Session::flash('error', 'Không thể xóa danh mục vì còn danh mục con!');
+                return redirect()->back();
+            }
+            
+            // Xóa danh mục
+            $deleted = DB::table('category_product')
+                ->whereIn('category_id', $selectedItems)
+                ->delete();
+            
+            Session::flash('success', "Đã xóa thành công {$deleted} danh mục!");
+            
+            return redirect()->back();
+            
+        } catch (\Exception $e) {
+            Session::flash('error', 'Có lỗi xảy ra khi xóa danh mục: ' . $e->getMessage());
+            return redirect()->back();
+        }
+    }
+    
+    /**
+     * Kích hoạt hàng loạt danh mục
+     */
+    private function bulkActivateCategory($selectedItems)
+    {
+        try {
+            $updated = DB::table('category_product')
+                ->whereIn('category_id', $selectedItems)
+                ->update(['category_status' => 1]);
+            
+            Session::flash('success', "Đã kích hoạt thành công {$updated} danh mục!");
+            
+            return redirect()->back();
+            
+        } catch (\Exception $e) {
+            Session::flash('error', 'Có lỗi xảy ra khi kích hoạt danh mục: ' . $e->getMessage());
+            return redirect()->back();
+        }
+    }
+    
+    /**
+     * Vô hiệu hóa hàng loạt danh mục
+     */
+    private function bulkDeactivateCategory($selectedItems)
+    {
+        try {
+            $updated = DB::table('category_product')
+                ->whereIn('category_id', $selectedItems)
+                ->update(['category_status' => 0]);
+            
+            Session::flash('success', "Đã vô hiệu hóa thành công {$updated} danh mục!");
+            
+            return redirect()->back();
+            
+        } catch (\Exception $e) {
+            Session::flash('error', 'Có lỗi xảy ra khi vô hiệu hóa danh mục: ' . $e->getMessage());
+            return redirect()->back();
+        }
+    }
+    
+    /**
+     * Chỉnh sửa hàng loạt danh mục
+     */
+    private function bulkEditCategory(Request $request, $selectedItems)
+    {
+        try {
+            $updateData = [];
+            
+            // Kiểm tra và cập nhật trạng thái
+            if ($request->filled('status') && $request->status !== '') {
+                $updateData['category_status'] = (int)$request->status;
+            }
+            
+            if (empty($updateData)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không có thông tin nào được cập nhật!'
+                ]);
+            }
+            
+            $updated = DB::table('category_product')
+                ->whereIn('category_id', $selectedItems)
+                ->update($updateData);
+            
+            return response()->json([
+                'success' => true,
+                'message' => "Đã cập nhật thành công {$updated} danh mục!"
+            ]);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra khi cập nhật danh mục: ' . $e->getMessage()
+            ]);
+        }
+    }
+    
+    /**
+     * Xuất dữ liệu danh mục đã chọn
+     */
+    private function bulkExportCategory($selectedItems)
+    {
+        try {
+            $categories = Category::with('parent')
+                ->whereIn('category_id', $selectedItems)
+                ->get();
+            
+            $filename = 'categories_export_' . date('Y-m-d_H-i-s') . '.csv';
+            $handle = fopen('php://output', 'w');
+            
+            // Set headers for file download
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment; filename="' . $filename . '"');
+            header('Pragma: no-cache');
+            header('Expires: 0');
+            
+            // Add BOM for UTF-8
+            fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF));
+            
+            // CSV headers
+            fputcsv($handle, [
+                'ID',
+                'Tên danh mục',
+                'Danh mục cha',
+                'Mô tả',
+                'Trạng thái',
+                'Ngày tạo'
+            ]);
+            
+            // CSV data
+            foreach ($categories as $category) {
+                fputcsv($handle, [
+                    $category->category_id,
+                    $category->category_name,
+                    $category->parent ? $category->parent->category_name : '',
+                    $category->category_description,
+                    $category->category_status == 1 ? 'Hiển thị' : 'Ẩn',
+                    $category->created_at ?? ''
+                ]);
+            }
+            
+            fclose($handle);
+            exit;
+            
+        } catch (\Exception $e) {
+            Session::flash('error', 'Có lỗi xảy ra khi xuất dữ liệu: ' . $e->getMessage());
+            return redirect()->back();
+        }
+    }
 }
