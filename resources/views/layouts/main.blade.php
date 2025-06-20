@@ -126,11 +126,14 @@
 
                     <!-- Right Icons -->
                     <div class="flex items-center space-x-4">
-                        <button class="text-black hover:text-gray-300 hidden sm:block">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M16.65 11a5.65 5.65 0 11-11.3 0 5.65 5.65 0 0111.3 0z" />
-                            </svg>
-                        </button>
+                        <form action="{{ route('search') }}" method="GET" class="hidden sm:flex items-center relative">
+                            <input type="text" name="keyword" placeholder="Tìm kiếm..." class="pl-3 pr-10 py-1.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                            <button type="submit" class="absolute right-2 text-gray-500 hover:text-blue-600">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M16.65 11a5.65 5.65 0 11-11.3 0 5.65 5.65 0 0111.3 0z" />
+                                </svg>
+                            </button>
+                        </form>
 
                         <div class="relative group">
                             <a href="{{ route('cart_view') }}" class="text-black hover:text-gray-300">
@@ -208,6 +211,14 @@
             <!-- Mobile Menu -->
             <div id="mobile-menu" class="lg:hidden hidden bg-white border-t border-gray-200">
                 <div class="px-4 py-2 space-y-1">
+                    <form action="{{ route('search') }}" method="GET" class="flex items-center relative mb-3">
+                        <input type="text" name="keyword" placeholder="Tìm kiếm..." class="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                        <button type="submit" class="absolute right-2 text-gray-500 hover:text-blue-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M16.65 11a5.65 5.65 0 11-11.3 0 5.65 5.65 0 0111.3 0z" />
+                            </svg>
+                        </button>
+                    </form>
                     <a href="{{ route('home') }}" class="block px-3 py-2 text-black hover:bg-gray-100 rounded-md text-base">Trang chủ</a>
 
                     @if(isset($parent_categories))
@@ -260,7 +271,7 @@
     <footer class="bg-gray-100 py-8">
         <div class="container mx-auto px-4">
             <!-- Main Footer Content -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Cột 1 -->
                 <div class="space-y-4">
                     <h3 class="text-lg font-bold mb-4">VỀ HAIPHUONGMOBILE</h3>
@@ -299,40 +310,21 @@
                     <ul class="space-y-2">
                         <li class="flex items-center">
                             <span class="text-sm text-gray-600">Mua hàng:</span>
-                            <a href="tel:19005301" class="text-blue-600 hover:text-blue-800 ml-2 text-sm">1900.5301</a>
+                            <a href="tel:0934693339" class="text-blue-600 hover:text-blue-800 ml-2 text-sm">0934693339</a>
                         </li>
                         <li class="flex items-center">
                             <span class="text-sm text-gray-600">Bảo hành:</span>
-                            <a href="tel:19005325" class="text-blue-600 hover:text-blue-800 ml-2 text-sm">1900.5325</a>
+                            <a href="tel:0934693339" class="text-blue-600 hover:text-blue-800 ml-2 text-sm">0934693339</a>
                         </li>
                         <li class="flex items-center">
                             <span class="text-sm text-gray-600">Khiếu nại:</span>
-                            <a href="tel:18006173" class="text-blue-600 hover:text-blue-800 ml-2 text-sm">1800.6173</a>
+                            <a href="tel:0934693339" class="text-blue-600 hover:text-blue-800 ml-2 text-sm">0934693339</a>
                         </li>
                         <li class="flex items-center">
                             <span class="text-sm text-gray-600">Email:</span>
                             <a href="mailto:sonotaku555@gmail.com" class="text-blue-600 hover:text-blue-800 ml-2 text-sm break-all">sonotaku555@gmail.com</a>
                         </li>
                     </ul>
-                </div>
-
-                <!-- Cột 5: Kết nối -->
-                <div class="space-y-4">
-                    <h3 class="text-lg font-bold mb-4">KẾT NỐI VỚI CHÚNG TÔI</h3>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">
-                            <i class="fab fa-facebook-f text-2xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">
-                            <i class="fab fa-tiktok text-2xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">
-                            <i class="fab fa-youtube text-2xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">
-                            <i class="fab fa-zalo text-2xl"></i>
-                        </a>
-                    </div>
                 </div>
             </div>
 
@@ -342,21 +334,21 @@
                     <!-- Đơn vị vận chuyển -->
                     <div class="space-y-4">
                         <h3 class="text-lg font-bold mb-4">ĐƠN VỊ VẬN CHUYỂN</h3>
-                        <div class="flex flex-wrap gap-4">
-                            <img src="https://via.placeholder.com/80x40" alt="GHN" class="h-10 object-contain">
-                            <img src="https://via.placeholder.com/80x40" alt="Giao hàng nhanh" class="h-10 object-contain">
-                            <img src="https://via.placeholder.com/80x40" alt="VNPost" class="h-10 object-contain">
+                        <div class="flex flex-wrap gap-4 items-center">
+                            <img src="{{ asset('images/unnamed.png') }}" alt="GHN" class="h-10 object-contain rounded-md">
+                            <img src="{{ asset('images/vnpost.png') }}" alt="VNPost" class="h-10 object-contain rounded-md">
+                            <img src="{{ asset('images/vtpost.jpg') }}" alt="VTPost" class="h-10 object-contain rounded-md">
                         </div>
                     </div>
 
                     <!-- Cách thức thanh toán -->
                     <div class="space-y-4">
                         <h3 class="text-lg font-bold mb-4">CÁCH THỨC THANH TOÁN</h3>
-                        <div class="flex flex-wrap gap-4">
-                            <img src="https://via.placeholder.com/80x40" alt="Visa" class="h-10 object-contain">
-                            <img src="https://via.placeholder.com/80x40" alt="MasterCard" class="h-10 object-contain">
-                            <img src="https://via.placeholder.com/80x40" alt="ZaloPay" class="h-10 object-contain">
-                            <img src="https://via.placeholder.com/80x40" alt="MoMo" class="h-10 object-contain">
+                        <div class="flex flex-wrap gap-4 items-center">
+                            <img src="{{ asset('images/visa.png') }}" alt="Visa" class="h-10 object-contain w-20 rounded-md">
+                            <img src="{{ asset('images/mtc.svg') }}" alt="MasterCard" class="h-10 object-contain w-20 rounded-md">
+                            <img src="{{ asset('images/zalo.png') }}" alt="ZaloPay" class="h-10 object-contain w-20 rounded-md">
+                            <img src="{{ asset('images/momo.png') }}" alt="MoMo" class="h-10 object-contain w-20 rounded-md">
                         </div>
                     </div>
                 </div>
