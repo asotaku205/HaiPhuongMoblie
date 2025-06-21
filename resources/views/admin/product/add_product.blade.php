@@ -5,7 +5,7 @@
 @section('page_title', 'Thêm Sản Phẩm Mới')
 
 @section('content')
-<div class="bg-white rounded-lg shadow overflow-hidden p-4 sm:p-6">
+<div class="bg-white rounded-lg shadow overflow-hidden p-6">
     <!-- Thông báo lỗi hoặc thành công -->
     @if(session('success'))
     <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
@@ -20,25 +20,25 @@
     @endif
 
     <!-- Form thêm sản phẩm -->
-    <form action="{{ route('save_product') }}" method="POST" enctype="multipart/form-data" class="space-y-6 form-mobile-stack">
+    <form action="{{ route('save_product') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
         
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-            <div class="space-y-4 sm:space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-6">
                 <!-- Tên sản phẩm -->
-                <div class="form-group">
+                <div>
                     <label for="product_name" class="block text-sm font-medium text-gray-700">Tên sản phẩm <span class="text-red-500">*</span></label>
                     <input type="text" name="product_name" id="product_name" required
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm">
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     @error('product_name')
                         <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
                     @enderror
                 </div>
                 
                 <!-- Danh mục sản phẩm -->
-                <div class="form-group">
+                <div>
                     <label for="category_id" class="block text-sm font-medium text-gray-700">Danh mục <span class="text-red-500">*</span></label>
-                    <select name="category_id" id="category_id" required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm">
+                    <select name="category_id" id="category_id" required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <option value="">Chọn danh mục</option>
                         @foreach($categories as $category)
                         <option value="{{ $category->category_id }}">{{ $category->category_name }}</option>
