@@ -3,9 +3,9 @@
 @section('title', 'Quản lý Blog Sửa Chữa')
 
 @section('content')
-<div class="p-6">
+<div class="p-4 sm:p-6">
     <!-- Header -->
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 space-y-4 sm:space-y-0">
         <div>
             <h1 class="text-2xl font-semibold text-gray-900">Quản lý Blog Sửa Chữa</h1>
             <p class="text-gray-600">Quản lý các bài viết và câu hỏi từ người dùng</p>
@@ -16,8 +16,8 @@
     </div>
 
     <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-        <div class="bg-white rounded-lg shadow p-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6">
+        <div class="bg-white rounded-lg shadow p-4 sm:p-6">
             <div class="flex items-center">
                 <div class="p-2 bg-yellow-100 rounded-lg">
                     <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="bg-white rounded-lg shadow p-4 sm:p-6">
             <div class="flex items-center">
                 <div class="p-2 bg-green-100 rounded-lg">
                     <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,7 +45,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="bg-white rounded-lg shadow p-4 sm:p-6">
             <div class="flex items-center">
                 <div class="p-2 bg-gray-100 rounded-lg">
                     <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

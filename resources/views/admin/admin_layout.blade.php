@@ -27,16 +27,19 @@
 
 <body class="bg-gray-100">
     <div class="flex h-screen overflow-hidden">
+        <!-- Mobile sidebar overlay -->
+        <div id="mobile-sidebar-overlay" class="fixed inset-0 z-40 bg-gray-600 bg-opacity-50 transition-opacity duration-300 ease-linear lg:hidden opacity-0 pointer-events-none"></div>
+        
         <!-- Sidebar -->
-        <div class="hidden md:flex md:flex-shrink-0">
+        <div id="mobile-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-gray-800 transform -translate-x-full transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0">
             <div class="flex flex-col w-64 bg-gray-800">
                 <!-- Sidebar header -->
-                <div class="flex items-center h-16 px-4 bg-gray-900 text-white">
+                <div class="flex items-center justify-between h-16 px-4 bg-gray-900 text-white">
                     <a href="{{ route('admin_index') }}" class="flex-shrink-0 flex items-center">
-                        <span class="text-xl font-bold">HẢI PHƯƠNG</span>
+                        <span class="text-xl font-bold">HẢI PHƯƠNG MOBILE</span>
                     </a>
-                    <button class="md:hidden p-2 rounded-md lg:hidden">
-                        <i class="fas fa-bars"></i>
+                    <button id="close-sidebar" class="lg:hidden p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-600">
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
 
@@ -125,28 +128,18 @@
         <div class="flex flex-col flex-1 overflow-hidden">
             <!-- Top bar -->
             <div class="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
-                <button type="button" class="px-4 md:hidden">
-                    <i class="fas fa-bars text-gray-500"></i>
+                <button type="button" id="mobile-menu-button" class="px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 lg:hidden">
+                    <i class="fas fa-bars"></i>
                 </button>
 
                 <!-- Search bar -->
                 <div class="flex-1 px-4 flex justify-between">
                     <div class="flex-1 flex">
-                        <form class="w-full flex md:ml-0" action="#" method="GET">
-                            <label for="search-field" class="sr-only">Tìm kiếm</label>
-                            <div class="relative w-full text-gray-400 focus-within:text-gray-600">
-                                <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none">
-                                    <i class="fas fa-search ml-3"></i>
-                                </div>
-                                <input id="search-field"
-                                    class="block w-full h-full pl-10 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent sm:text-sm"
-                                    placeholder="Tìm kiếm" type="search">
-                            </div>
-                        </form>
+                        
                     </div>
 
                     <!-- User dropdown -->
-                    <div class="ml-4 flex items-center md:ml-6">
+                    <div class="ml-2 sm:ml-4 flex items-center">
                         <div class="relative">
                             <button type="button"
                                 class="flex items-center max-w-xs text-sm rounded-full text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -155,10 +148,10 @@
                                 <img class="h-8 w-8 rounded-full"
                                     src="https://ui-avatars.com/api/?name={{ Auth::guard('admin')->check() ? Auth::guard('admin')->user()->admusername : 'Admin' }}&background=random"
                                     alt="">
-                                <span class="ml-2 text-gray-700">
+                                <span class="ml-2 text-gray-700 hidden sm:block">
                                     {{ Auth::guard('admin')->user()->admusername ?? 'Admin' }}
                                 </span>
-                                <i class="fas fa-chevron-down ml-1 text-gray-500"></i>
+                                <i class="fas fa-chevron-down ml-1 text-gray-500 hidden sm:block"></i>
                             </button>
 
                             <!-- Dropdown menu -->

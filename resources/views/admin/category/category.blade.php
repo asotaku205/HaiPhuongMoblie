@@ -23,22 +23,7 @@
     <!-- Tiêu đề và công cụ -->
     <div class="p-6 border-b border-gray-200">
         <div class="flex flex-col md:flex-row justify-between items-center space-y-3 md:space-y-0">
-            <div class="flex items-center">
-                <select id="bulk-action-select" disabled
-                    class="mr-2 px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 opacity-50">
-                    <option value="0">Chọn hành động</option>
-                    <option value="delete">Xóa mục đã chọn</option>
-                    <option value="activate">Kích hoạt</option>
-                    <option value="deactivate">Vô hiệu hóa</option>
-                    <option value="bulk_edit">Chỉnh sửa hàng loạt</option>
-                    <option value="export">Xuất dữ liệu</option>
-                </select>
-                <button id="apply-bulk-action" disabled        
-                    class="px-4 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 opacity-50">
-                    Áp dụng
-                </button>
-                <span id="selected-count" class="ml-3 text-sm text-gray-600 hidden"></span>
-            </div>
+
             <!-- Nút thêm danh mục -->
             <div class="w-full md:w-auto">
                 <a href="{{ route('add_category') }}"
@@ -70,11 +55,6 @@
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
-                    <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        <input type="checkbox" id="select-all"
-                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                    </th>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Tên danh mục
@@ -109,10 +89,6 @@
                 @if(isset($all_category) && count($all_category) > 0)
                 @foreach ($all_category as $key => $category)
                 <tr class="{{ $category->parent_id === null ? 'bg-gray-50' : '' }}">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <input type="checkbox" name="selected_items[]" value="{{ $category->category_id }}"
-                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                    </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm font-medium text-gray-900">
                             @if($category->parent_id !== null)
