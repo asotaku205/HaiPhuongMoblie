@@ -137,6 +137,3 @@ Truy cập: [http://localhost:8000](http://localhost:8000)
 
 - Email: sonotaku555@gmail.com
 
----
-
-Bạn có muốn bổ sung thêm phần nào chi tiết hơn không?
